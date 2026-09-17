@@ -80,7 +80,8 @@ with st.sidebar:
             "📌 1. Inicio / Dashboard",
             "➕ 2. Registro de Activos",
             "🔍 3. Consulta y Ficha Técnica",
-            "⚙️ 4. Configuración y Respaldos"
+            "📦 4. Compendio de Fichas PDF",
+            "⚙️ 5. Configuración y Respaldos"
         ],
         index=0,
         label_visibility="collapsed"
@@ -742,26 +743,302 @@ elif menu == "🔍 3. Consulta y Ficha Técnica":
 
                 st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
-                # Generar y Descargar PDF
+                # Generar y Descargar PDF (con checklist de documentos)
+                asset_id_sel = activo_row.get('ID_Activo', '')
                 try:
                     import importlib
                     importlib.reload(core)
-                    pdf_buffer = core.generate_asset_pdf(activo_row)
+                    docs_for_pdf = core.get_asset_documents(asset_id_sel)
+                    pdf_buffer = core.generate_asset_pdf(activo_row, docs_list=docs_for_pdf)
                     st.download_button(
                         label="📥 Descargar Ficha Técnica en PDF",
                         data=pdf_buffer,
-                        file_name=f"Ficha_Tecnica_{activo_row.get('ID_Activo')}.pdf",
+                        file_name=f"Ficha_Tecnica_{asset_id_sel}.pdf",
                         mime="application/pdf",
                         use_container_width=True
                     )
                 except Exception as e:
                     st.error(f"Error al preparar PDF: {e}")
 
+                # ─────────────────────────────────────────────────────────────────
+                # 📁 REPOSITORIO DE DOCUMENTOS DEL ACTIVO
+                # ─────────────────────────────────────────────────────────────────
+                st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
+                st.markdown("""
+                    <div style="background:#111111; border-left: 4px solid #EC2024; border-radius:6px;
+                                padding:10px 16px; margin-bottom:12px;">
+                        <span style="color:#FFFFFF; font-family:'Montserrat',sans-serif;
+                                     font-weight:700; font-size:0.95rem;">
+                            📁 Repositorio de Documentos del Activo
+                        </span>
+                        <span style="color:#94A3B8; font-size:0.80rem; margin-left:8px;">
+                            Manuales · Gamas de Mantenimiento · Certificados · Planos
+                        </span>
+                    </div>
+                """, unsafe_allow_html=True)
+
+                with st.expander("📂 Ver y gestionar documentos vinculados", expanded=True):
+                    docs_list = core.get_asset_documents(asset_id_sel)
+
+                    # ── Subir nuevo documento ──────────────────────────────────
+                    st.markdown("##### 📤 Subir nuevo documento")
+                    allowed_types = ["pdf", "xlsx", "xls", "docx", "doc", "dwg", "jpg", "jpeg", "png", "txt"]
+                    uploaded_file = st.file_uploader(
+                        "Selecciona un archivo (PDF, Excel, Word, Imágenes…)",
+                        type=allowed_types,
+                        key=f"doc_uploader_{asset_id_sel}"
+                    )
+                    if uploaded_file is not None:
+                        col_up1, col_up2 = st.columns([3, 1])
+                        with col_up1:
+                            st.info(f"📄 **{uploaded_file.name}** — {core._fmt_size(uploaded_file.size)}")
+                        with col_up2:
+                            if st.button("💾 Guardar", key=f"save_doc_{asset_id_sel}", use_container_width=True):
+                                success = core.save_document(asset_id_sel, uploaded_file.read(), uploaded_file.name)
+                                if success:
+                                    st.success(f"✅ Archivo guardado: **{uploaded_file.name}**")
+                                    st.rerun()
+                                else:
+                                    st.error("Error al guardar el archivo.")
+
+                    st.markdown("---")
+
+                    # ── Lista de documentos vinculados ─────────────────────────
+                    docs_list = core.get_asset_documents(asset_id_sel)
+                    if not docs_list:
+                        st.markdown("""
+                            <div style="background:#F8FAFC; border:1px dashed #CBD5E1; border-radius:6px;
+                                        padding:18px; text-align:center; color:#94A3B8; font-size:0.88rem;">
+                                📭 Sin documentos vinculados aún. Sube el primer documento con el campo de arriba.
+                            </div>
+                        """, unsafe_allow_html=True)
+                    else:
+                        ext_icons = {
+                            ".pdf": "📄", ".xlsx": "📊", ".xls": "📊",
+                            ".docx": "📝", ".doc": "📝", ".dwg": "📐",
+                            ".jpg": "🖼️", ".jpeg": "🖼️", ".png": "🖼️",
+                        }
+                        total_size = sum(d.get("size_bytes", 0) for d in docs_list)
+                        st.markdown(f"""
+                            <div style="display:flex; justify-content:space-between; align-items:center;
+                                        margin-bottom:10px;">
+                                <span style="font-weight:700; color:#111111; font-size:0.9rem;">
+                                    {len(docs_list)} documento(s) registrado(s)
+                                </span>
+                                <span style="color:#64748B; font-size:0.82rem;">
+                                    Tamaño total: {core._fmt_size(total_size)}
+                                </span>
+                            </div>
+                        """, unsafe_allow_html=True)
+
+                        for doc_meta in docs_list:
+                            fname   = doc_meta['filename']
+                            ext     = doc_meta.get('ext', '')
+                            icon    = ext_icons.get(ext, "📎")
+                            size    = core._fmt_size(doc_meta.get('size_bytes', 0))
+                            date_up = doc_meta.get('uploaded_at', '')
+                            tipo    = core._classify_doc_type(fname)
+                            abs_p   = doc_meta.get('abs_path', '')
+
+                            col_ic, col_info, col_dl, col_del = st.columns([0.5, 4, 1.2, 1])
+                            with col_ic:
+                                st.markdown(f"<div style='font-size:1.6rem; padding-top:4px;'>{icon}</div>",
+                                            unsafe_allow_html=True)
+                            with col_info:
+                                st.markdown(f"""
+                                    <div style='line-height:1.4;'>
+                                        <b style='font-size:0.88rem;'>{fname}</b><br/>
+                                        <span style='font-size:0.75rem; color:#64748B;'>
+                                            {tipo} &nbsp;·&nbsp; {size} &nbsp;·&nbsp; {date_up}
+                                        </span>
+                                    </div>
+                                """, unsafe_allow_html=True)
+                            with col_dl:
+                                if abs_p and os.path.exists(abs_p):
+                                    with open(abs_p, "rb") as fh:
+                                        file_bytes = fh.read()
+                                    st.download_button(
+                                        label="⬇️",
+                                        data=file_bytes,
+                                        file_name=fname,
+                                        key=f"dl_{asset_id_sel}_{fname}",
+                                        use_container_width=True
+                                    )
+                            with col_del:
+                                if st.button("🗑️", key=f"del_{asset_id_sel}_{fname}",
+                                             help=f"Eliminar {fname}"):
+                                    core.delete_document(asset_id_sel, fname)
+                                    st.success(f"Documento eliminado: {fname}")
+                                    st.rerun()
+
+                            st.markdown(
+                                "<hr style='border:none; border-top:1px solid #F1F5F9; margin:4px 0;'>",
+                                unsafe_allow_html=True
+                            )
+
 
 # =============================================================================
-# ⚙️ 4. CONFIGURACIÓN Y RESPALDOS
+# 📦 4. COMPENDIO DE FICHAS PDF (SELECCIÓN MASIVA)
 # =============================================================================
-elif menu == "⚙️ 4. Configuración y Respaldos":
+elif menu == "📦 4. Compendio de Fichas PDF":
+    st.markdown("""
+        <div style="margin-bottom: 1.2rem;">
+            <h1 style="color: #111111; margin: 0; font-size: 2rem;">
+                📦 Compendio de Fichas Técnicas PDF
+            </h1>
+            <p style="color: #64748B; margin: 0.2rem 0 0 0; font-size: 0.95rem;">
+                Seleccione los activos, aplique filtros y genere un PDF compendio multi-página con portada oficial SIGRAMA.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    df_comp = core.init_excel_db()
+
+    if df_comp.empty:
+        st.warning("No hay activos registrados. Ve al Módulo 2 para registrar equipos primero.")
+    else:
+        # ── Filtros ────────────────────────────────────────────────────────────
+        st.markdown("#### 🔎 Filtros de Selección")
+        fc1, fc2, fc3, fc4 = st.columns(4)
+        with fc1:
+            areas_ops = ["Todas las Áreas"] + sorted(df_comp["Area_Produccion"].dropna().unique().tolist())
+            f_area = st.selectbox("Área de Producción", areas_ops, key="comp_area")
+        with fc2:
+            cats_ops = ["Todas las Categorías"] + sorted(df_comp["Categoria"].dropna().unique().tolist())
+            f_cat = st.selectbox("Categoría", cats_ops, key="comp_cat")
+        with fc3:
+            est_ops = ["Todos los Estatus"] + sorted(df_comp["Estatus_Operativo"].dropna().unique().tolist())
+            f_est = st.selectbox("Estatus Operativo", est_ops, key="comp_est")
+        with fc4:
+            f_txt = st.text_input("🔍 Búsqueda libre (Nombre, Marca, ID…)", key="comp_txt")
+
+        # Aplicar filtros
+        df_filtered = df_comp.copy()
+        if f_area != "Todas las Áreas":
+            df_filtered = df_filtered[df_filtered["Area_Produccion"] == f_area]
+        if f_cat != "Todas las Categorías":
+            df_filtered = df_filtered[df_filtered["Categoria"] == f_cat]
+        if f_est != "Todos los Estatus":
+            df_filtered = df_filtered[df_filtered["Estatus_Operativo"] == f_est]
+        if f_txt.strip():
+            mask = df_filtered.apply(
+                lambda row: f_txt.lower() in str(row.get("Nombre_Equipo","")).lower()
+                         or f_txt.lower() in str(row.get("Marca","")).lower()
+                         or f_txt.lower() in str(row.get("ID_Activo","")).lower(),
+                axis=1
+            )
+            df_filtered = df_filtered[mask]
+
+        st.markdown(f"**{len(df_filtered)}** activo(s) encontrado(s) con los filtros actuales")
+        st.markdown("---")
+
+        # ── Tabla de Selección con Checkboxes ─────────────────────────────────
+        st.markdown("#### ✅ Seleccionar Activos para el Compendio")
+
+        # Inicializar estado de selección en session_state
+        sel_key = "comp_selection"
+        if sel_key not in st.session_state:
+            st.session_state[sel_key] = set()
+
+        # Botones de Selección Masiva
+        bc1, bc2, bc3 = st.columns([1, 1, 4])
+        with bc1:
+            if st.button("☑️ Seleccionar todos", use_container_width=True):
+                st.session_state[sel_key] = set(df_filtered["ID_Activo"].tolist())
+                st.rerun()
+        with bc2:
+            if st.button("☐ Limpiar selección", use_container_width=True):
+                st.session_state[sel_key] = set()
+                st.rerun()
+
+        # Cabecera de tabla
+        hcols = st.columns([0.5, 1.3, 3.2, 1.2, 1.5, 1.2])
+        headers = ["☑", "ID Activo", "Nombre del Equipo", "Área", "Categoría", "Estatus"]
+        for col, h in zip(hcols, headers):
+            col.markdown(f"<b style='font-size:0.80rem; color:#475569;'>{h}</b>", unsafe_allow_html=True)
+        st.markdown("<hr style='border:none; border-top:2px solid #EC2024; margin:4px 0 8px 0;'>",
+                    unsafe_allow_html=True)
+
+        # Filas de activos
+        for _, row in df_filtered.iterrows():
+            aid = str(row.get("ID_Activo", ""))
+            estatus = str(row.get("Estatus_Operativo", ""))
+            est_color = "#16A34A" if estatus == "Operativo" else \
+                        ("#F59E0B" if "Mant" in estatus else "#DC2626")
+            rcols = st.columns([0.5, 1.3, 3.2, 1.2, 1.5, 1.2])
+            checked = aid in st.session_state[sel_key]
+            new_val = rcols[0].checkbox("", value=checked, key=f"chk_{aid}", label_visibility="collapsed")
+            if new_val and aid not in st.session_state[sel_key]:
+                st.session_state[sel_key].add(aid)
+            elif not new_val and aid in st.session_state[sel_key]:
+                st.session_state[sel_key].discard(aid)
+
+            rcols[1].markdown(f"<b style='font-size:0.83rem;'>{aid}</b>", unsafe_allow_html=True)
+            rcols[2].markdown(f"<span style='font-size:0.83rem;'>{str(row.get('Nombre_Equipo',''))[:40]}</span>", unsafe_allow_html=True)
+            rcols[3].markdown(f"<span style='font-size:0.83rem; color:#475569;'>{row.get('Area_Produccion','')}</span>", unsafe_allow_html=True)
+            rcols[4].markdown(f"<span style='font-size:0.83rem; color:#475569;'>{str(row.get('Categoria',''))[:20]}</span>", unsafe_allow_html=True)
+            rcols[5].markdown(f"<b style='font-size:0.83rem; color:{est_color};'>{estatus}</b>", unsafe_allow_html=True)
+
+        st.markdown("<hr style='border:none; border-top:1px solid #E2E8F0; margin:8px 0;'>",
+                    unsafe_allow_html=True)
+
+        # ── Panel de Generación ────────────────────────────────────────────────
+        n_sel = len(st.session_state[sel_key])
+        st.markdown(f"""
+            <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-left:4px solid #EC2024;
+                        border-radius:6px; padding:12px 16px; margin:12px 0; display:flex;
+                        justify-content:space-between; align-items:center;">
+                <span style="font-size:0.95rem;">
+                    <b style="color:#EC2024; font-size:1.2rem;">{n_sel}</b>
+                    <span style="color:#475569;"> activo(s) seleccionado(s) para el compendio</span>
+                </span>
+            </div>
+        """, unsafe_allow_html=True)
+
+        comp_title_input = st.text_input(
+            "Título del Compendio",
+            value=f"Compendio de Fichas Técnicas — {f_area if f_area != 'Todas las Áreas' else 'Planta General'}",
+            key="comp_title"
+        )
+
+        if n_sel == 0:
+            st.info("☝️ Selecciona al menos un activo para generar el compendio.")
+        else:
+            if st.button(
+                f"📄 Generar Compendio PDF ({n_sel} ficha{'s' if n_sel > 1 else ''})",
+                use_container_width=True,
+                type="primary"
+            ):
+                selected_ids = st.session_state[sel_key]
+                selected_rows = df_comp[df_comp["ID_Activo"].isin(selected_ids)].to_dict("records")
+
+                progress_bar = st.progress(0, text="Iniciando generación…")
+                try:
+                    progress_bar.progress(20, text="Preparando portada institucional SIGRAMA…")
+                    batch_buf = core.generate_batch_pdf(selected_rows, comp_title_input)
+                    progress_bar.progress(90, text="Fusionando fichas técnicas…")
+                    progress_bar.progress(100, text="✅ Compendio listo para descargar")
+
+                    area_label = f_area.replace("Todas las Áreas", "Planta").replace(" ", "_")
+                    fecha_label = datetime.now().strftime("%Y%m%d_%H%M")
+                    filename = f"Compendio_SIGRAMA_{area_label}_{fecha_label}.pdf"
+
+                    st.download_button(
+                        label=f"📥 Descargar Compendio PDF ({n_sel} fichas)",
+                        data=batch_buf,
+                        file_name=filename,
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
+                    st.success(f"✅ Compendio generado exitosamente: **{filename}**")
+                except Exception as e:
+                    st.error(f"Error al generar el compendio: {e}")
+
+
+# =============================================================================
+# ⚙️ 5. CONFIGURACIÓN Y RESPALDOS
+# =============================================================================
+elif menu == "⚙️ 5. Configuración y Respaldos":
     st.markdown("""
         <div style="margin-bottom: 1.2rem;">
             <h1 style="color: #0B4F8A; margin: 0; font-size: 2rem;">Configuración, Respaldos y Git</h1>

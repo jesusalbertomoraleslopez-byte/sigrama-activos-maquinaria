@@ -28,6 +28,18 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 FOTOS_DIR = os.path.join(MEDIA_DIR, "fotos_activos")
 QRS_DIR = os.path.join(MEDIA_DIR, "qrs")
 LOGO_FILE = os.path.join(BASE_DIR, "logo_sigrama.png")
+DOCS_DIR = os.path.join(MEDIA_DIR, "documentos")
+DOCS_INDEX_FILE = os.path.join(DOCS_DIR, "_index.json")
+
+# Tipos de documento reconocidos para el checklist
+DOC_TYPES = [
+    ("Manual de Operación / Servicio",      [".pdf"],             "📄"),
+    ("Gama / Plan de Mantenimiento",        [".xlsx", ".xls"],    "📊"),
+    ("Certificado / Calibración",           [".pdf"],             "🏆"),
+    ("Plano Técnico / Dibujo",              [".pdf", ".dwg"],     "📐"),
+    ("Imagen Adicional del Equipo",         [".jpg", ".jpeg", ".png"], "🖼️"),
+    ("Otro Documento",                      [],                   "📎"),
+]
 
 # Esquema de Columnas del Inventario
 COLUMNS = [
@@ -132,6 +144,118 @@ def ensure_directories():
     """Asegura la existencia de directorios de almacenamiento local."""
     os.makedirs(FOTOS_DIR, exist_ok=True)
     os.makedirs(QRS_DIR, exist_ok=True)
+    os.makedirs(DOCS_DIR, exist_ok=True)
+
+
+# =============================================================================
+# REPOSITORIO DE DOCUMENTOS POR ACTIVO
+# =============================================================================
+
+def _load_docs_index() -> dict:
+    """Carga el índice JSON de documentos. Retorna dict vacío si no existe."""
+    if os.path.exists(DOCS_INDEX_FILE):
+        try:
+            with open(DOCS_INDEX_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+
+def _save_docs_index(index: dict) -> None:
+    """Persiste el índice JSON de documentos en disco."""
+    ensure_directories()
+    with open(DOCS_INDEX_FILE, "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False, indent=2)
+
+
+def get_docs_dir(asset_id: str) -> str:
+    """Retorna (y crea si no existe) la carpeta de documentos del activo."""
+    folder = os.path.join(DOCS_DIR, str(asset_id))
+    os.makedirs(folder, exist_ok=True)
+    return folder
+
+
+def save_document(asset_id: str, file_bytes: bytes, filename: str) -> bool:
+    """
+    Guarda un archivo en la carpeta del activo y actualiza el índice JSON.
+    Retorna True si tuvo éxito.
+    """
+    try:
+        folder = get_docs_dir(asset_id)
+        dest = os.path.join(folder, filename)
+        with open(dest, "wb") as f:
+            f.write(file_bytes)
+        # Actualizar índice
+        index = _load_docs_index()
+        if asset_id not in index:
+            index[asset_id] = []
+        # Eliminar entrada anterior con el mismo nombre (si existe)
+        index[asset_id] = [d for d in index[asset_id] if d["filename"] != filename]
+        ext = os.path.splitext(filename)[1].lower()
+        index[asset_id].append({
+            "filename": filename,
+            "ext": ext,
+            "size_bytes": len(file_bytes),
+            "uploaded_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "path": os.path.join("media", "documentos", str(asset_id), filename).replace("\\", "/")
+        })
+        _save_docs_index(index)
+        return True
+    except Exception as e:
+        print(f"Error al guardar documento: {e}")
+        return False
+
+
+def get_asset_documents(asset_id: str) -> list:
+    """
+    Retorna la lista de metadatos de documentos vinculados al activo.
+    Cada elemento: {filename, ext, size_bytes, uploaded_at, path}
+    """
+    index = _load_docs_index()
+    docs = index.get(str(asset_id), [])
+    # Filtrar solo los que físicamente existen
+    valid = []
+    for d in docs:
+        abs_path = os.path.join(BASE_DIR, d.get("path", "").replace("/", os.sep))
+        if os.path.exists(abs_path):
+            d["abs_path"] = abs_path
+            valid.append(d)
+    return valid
+
+
+def delete_document(asset_id: str, filename: str) -> bool:
+    """Elimina un documento físicamente y lo remueve del índice JSON."""
+    try:
+        folder = get_docs_dir(asset_id)
+        dest = os.path.join(folder, filename)
+        if os.path.exists(dest):
+            os.remove(dest)
+        index = _load_docs_index()
+        if asset_id in index:
+            index[asset_id] = [d for d in index[asset_id] if d["filename"] != filename]
+        _save_docs_index(index)
+        return True
+    except Exception as e:
+        print(f"Error al eliminar documento: {e}")
+        return False
+
+
+def _classify_doc_type(filename: str) -> str:
+    """Clasifica un archivo en un tipo de documento para el checklist."""
+    ext = os.path.splitext(filename)[1].lower()
+    for label, exts, _ in DOC_TYPES[:-1]:  # Excluir "Otro"
+        if ext in exts:
+            return label
+    return "Otro Documento"
+
+
+def _fmt_size(size_bytes: int) -> str:
+    """Formatea tamaño en bytes a KB o MB."""
+    if size_bytes >= 1_048_576:
+        return f"{size_bytes / 1_048_576:.1f} MB"
+    return f"{size_bytes / 1024:.0f} KB"
+
 
 
 def init_excel_db() -> pd.DataFrame:
@@ -331,11 +455,12 @@ def register_new_asset(asset_data: Dict[str, Any], uploaded_file=None) -> Tuple[
     return False, "Error al guardar en el archivo Excel", asset_data
 
 
-def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
+def generate_asset_pdf(asset: Dict[str, Any], docs_list: Optional[list] = None) -> BytesIO:
     """
     Genera la Ficha Técnica Ejecutiva del activo en formato PDF
     utilizando ReportLab, con el logotipo oficial de SIGRAMA,
     diseño ejecutivo a dos columnas y cumplimiento normativo SAT.
+    Si se provee docs_list, incluye tabla de checklist de documentación.
     """
     buffer = BytesIO()
     # Márgenes calibrados para diseño ejecutivo en 1 sola página
@@ -692,9 +817,126 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
     story.append(main_layout)
 
     # =========================================================================
-    # 4. SECCIÓN DE FIRMAS Y VALIDEZ
+    # 4. CHECKLIST DE DOCUMENTACIÓN DISPONIBLE (si se proporcionó docs_list)
     # =========================================================================
-    story.append(Spacer(1, 14))
+    if docs_list is not None:
+        # Foto y QR siempre presentes si existen
+        foto_ok = bool(str(asset.get("Ruta_Foto", "")).strip())
+        qr_ok   = bool(str(asset.get("Ruta_QR", "")).strip())
+
+        # Construir set de tipos de docs subidos
+        uploaded_types: Dict[str, list] = {}
+        for d in docs_list:
+            tipo = _classify_doc_type(d["filename"])
+            uploaded_types.setdefault(tipo, [])
+            uploaded_types[tipo].append(d["filename"])
+
+        chk_label_style = ParagraphStyle(
+            'ChkLabel', parent=styles['Normal'], fontName='Helvetica-Bold',
+            fontSize=7, leading=9, textColor=color_black
+        )
+        chk_val_style = ParagraphStyle(
+            'ChkVal', parent=styles['Normal'], fontName='Helvetica',
+            fontSize=6.8, leading=8.5, textColor=color_gray
+        )
+        chk_ok_style = ParagraphStyle(
+            'ChkOk', parent=styles['Normal'], fontName='Helvetica-Bold',
+            fontSize=7, leading=9, textColor=colors.HexColor("#16A34A")
+        )
+        chk_miss_style = ParagraphStyle(
+            'ChkMiss', parent=styles['Normal'], fontName='Helvetica',
+            fontSize=7, leading=9, textColor=colors.HexColor("#DC2626")
+        )
+
+        chk_hdr_style = ParagraphStyle(
+            'ChkHdr', parent=styles['Normal'], fontName='Helvetica-Bold',
+            fontSize=7.5, leading=9, textColor=colors.white
+        )
+
+        # Filas: primero los 4 tipos clave, luego foto y QR
+        doc_check_items = [
+            ("Manual de Operación / Servicio",   uploaded_types.get("Manual de Operación / Servicio", [])),
+            ("Gama / Plan de Mantenimiento",      uploaded_types.get("Gama / Plan de Mantenimiento", [])),
+            ("Certificado / Calibración",         uploaded_types.get("Certificado / Calibración", [])),
+            ("Plano Técnico / Dibujo",            uploaded_types.get("Plano Técnico / Dibujo", [])),
+            ("Imagen Adicional del Equipo",       uploaded_types.get("Imagen Adicional del Equipo", [])),
+            ("Otro Documento",                    uploaded_types.get("Otro Documento", [])),
+            ("Fotografía Principal del Equipo",   ["foto_registrada"] if foto_ok else []),
+            ("Código QR de Trazabilidad",         ["qr_generado"] if qr_ok else []),
+        ]
+
+        chk_rows = [
+            [
+                Paragraph("TIPO DE DOCUMENTO", chk_hdr_style),
+                Paragraph("ESTADO", chk_hdr_style),
+                Paragraph("ARCHIVOS DISPONIBLES", chk_hdr_style),
+            ]
+        ]
+        ok_count = 0
+        for label, files in doc_check_items:
+            if files:
+                ok_count += 1
+                estado = Paragraph("✔ DISPONIBLE", chk_ok_style)
+                archivos_txt = ", ".join(f[:28] for f in files[:2])
+                if len(files) > 2:
+                    archivos_txt += f" (+{len(files)-2})"
+                archivos = Paragraph(archivos_txt, chk_val_style)
+            else:
+                estado = Paragraph("✘ PENDIENTE", chk_miss_style)
+                archivos = Paragraph("—", chk_val_style)
+            chk_rows.append([
+                Paragraph(label, chk_label_style),
+                estado,
+                archivos,
+            ])
+        # Totalizador
+        total_txt = f"{ok_count}/{len(doc_check_items)} documentos registrados en el sistema"
+        chk_rows.append([
+            Paragraph(f"<b>{total_txt}</b>",
+                      ParagraphStyle('ChkTot', parent=styles['Normal'], fontName='Helvetica-Bold',
+                                     fontSize=6.8, leading=9, textColor=color_black)),
+            "", ""
+        ])
+
+        chk_table = Table(chk_rows, colWidths=[220, 80, 252])
+        chk_ts = TableStyle([
+            # Header row
+            ('BACKGROUND',   (0, 0), (-1, 0), color_black),
+            ('LINELEFT',     (0, 0), (0, 0),  3, color_red),
+            # Total row
+            ('SPAN',         (0, -1), (-1, -1)),
+            ('BACKGROUND',   (0, -1), (-1, -1), colors.HexColor("#F1F5F9")),
+            # Grid
+            ('LINEBELOW', (0, 1), (-1, -2), 0.4, colors.HexColor("#E2E8F0")),
+            ('VALIGN',    (0, 0), (-1, -1), 'MIDDLE'),
+            ('TOPPADDING',    (0, 0), (-1, -1), 2),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+            ('LEFTPADDING',   (0, 0), (-1, -1), 5),
+            ('RIGHTPADDING',  (0, 0), (-1, -1), 5),
+            ('BOX',       (0, 0), (-1, -1), 1, border_color),
+        ])
+        chk_table.setStyle(chk_ts)
+
+        story.append(Spacer(1, 10))
+        section_chk = Table(
+            [[Paragraph("4. DOCUMENTACIÓN TÉCNICA REGISTRADA EN SISTEMA", section_title_style)]],
+            colWidths=[552]
+        )
+        section_chk.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, -1), color_black),
+            ('LINELEFT', (0, 0), (0, 0), 3, color_red),
+            ('TOPPADDING', (0, 0), (-1, -1), 3),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+            ('LEFTPADDING', (0, 0), (-1, -1), 6),
+        ]))
+        story.append(section_chk)
+        story.append(Spacer(1, 3))
+        story.append(chk_table)
+
+    # =========================================================================
+    # 5. SECCIÓN DE FIRMAS Y VALIDEZ
+    # =========================================================================
+    story.append(Spacer(1, 10))
 
     firmas_data = [
         [
@@ -724,6 +966,146 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
     buffer.seek(0)
     return buffer
 
+
+# =============================================================================
+# GENERACIÓN DE COMPENDIO PDF POR LOTE
+# =============================================================================
+
+def generate_batch_pdf(assets_list: list, compendio_title: str = "Compendio de Fichas Técnicas") -> BytesIO:
+    """
+    Genera un PDF compendio multi-página con una portada institucional y
+    una Ficha Técnica completa por cada activo de la lista.
+    Utiliza pypdf para fusionar los PDFs individuales.
+    """
+    from pypdf import PdfWriter, PdfReader
+
+    writer = PdfWriter()
+
+    # -------------------------------------------------------------------------
+    # 1. PORTADA INSTITUCIONAL
+    # -------------------------------------------------------------------------
+    cover_buffer = BytesIO()
+    cover_doc = SimpleDocTemplate(
+        cover_buffer,
+        pagesize=letter,
+        leftMargin=50, rightMargin=50, topMargin=60, bottomMargin=50
+    )
+
+    styles = getSampleStyleSheet()
+    color_red   = colors.HexColor("#EC2024")
+    color_black = colors.HexColor("#111111")
+    color_gray  = colors.HexColor("#475569")
+    color_light = colors.HexColor("#F8FAFC")
+
+    cover_story = []
+
+    # Logo
+    if os.path.exists(LOGO_FILE):
+        try:
+            cover_logo = RLImage(LOGO_FILE, width=240, height=47.3)
+            cover_story.append(cover_logo)
+        except Exception:
+            pass
+
+    cover_story.append(Spacer(1, 30))
+
+    # Línea roja decorativa
+    cover_story.append(HRFlowable(width="100%", thickness=4, color=color_red, spaceAfter=20))
+
+    # Título del compendio
+    cover_story.append(Paragraph(
+        compendio_title.upper(),
+        ParagraphStyle('CoverTitle', fontName='Helvetica-Bold', fontSize=26,
+                       leading=32, textColor=color_black, spaceAfter=6)
+    ))
+    cover_story.append(Paragraph(
+        "INDUSTRIA SIGRAMA S.A. DE C.V. &bull; Control de Activos Fijos",
+        ParagraphStyle('CoverSub', fontName='Helvetica', fontSize=13,
+                       leading=17, textColor=color_gray, spaceAfter=40)
+    ))
+
+    cover_story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#CBD5E1"), spaceAfter=20))
+
+    # Metadatos del compendio
+    meta_style = ParagraphStyle('CoverMeta', fontName='Helvetica', fontSize=10,
+                                 leading=15, textColor=color_gray)
+    meta_bold  = ParagraphStyle('CoverMetaB', fontName='Helvetica-Bold', fontSize=10,
+                                 leading=15, textColor=color_black)
+    cover_story.append(Paragraph(f"Fecha de generación: <b>{datetime.now().strftime('%d/%m/%Y %H:%M hrs')}</b>", meta_style))
+    cover_story.append(Paragraph(f"Total de activos incluidos: <b>{len(assets_list)} equipos</b>", meta_style))
+    cover_story.append(Spacer(1, 25))
+
+    # Tabla índice de activos incluidos
+    idx_hdr = [
+        Paragraph("N°", ParagraphStyle('IH', fontName='Helvetica-Bold', fontSize=8, textColor=colors.white, alignment=1)),
+        Paragraph("ID ACTIVO", ParagraphStyle('IH', fontName='Helvetica-Bold', fontSize=8, textColor=colors.white)),
+        Paragraph("NOMBRE DEL EQUIPO", ParagraphStyle('IH', fontName='Helvetica-Bold', fontSize=8, textColor=colors.white)),
+        Paragraph("ÁREA", ParagraphStyle('IH', fontName='Helvetica-Bold', fontSize=8, textColor=colors.white)),
+        Paragraph("ESTATUS", ParagraphStyle('IH', fontName='Helvetica-Bold', fontSize=8, textColor=colors.white)),
+    ]
+    idx_rows = [idx_hdr]
+    for i, a in enumerate(assets_list, 1):
+        estatus = str(a.get("Estatus_Operativo", ""))
+        est_color = "#16A34A" if estatus == "Operativo" else ("#F59E0B" if "Mant" in estatus else "#DC2626")
+        idx_rows.append([
+            Paragraph(str(i), ParagraphStyle('IV', fontName='Helvetica', fontSize=8, alignment=1, textColor=color_gray)),
+            Paragraph(f"<b>{a.get('ID_Activo','')}</b>", ParagraphStyle('IV', fontName='Helvetica-Bold', fontSize=8, textColor=color_black)),
+            Paragraph(str(a.get('Nombre_Equipo', ''))[:45], ParagraphStyle('IV', fontName='Helvetica', fontSize=8, textColor=color_gray)),
+            Paragraph(str(a.get('Area_Produccion', '')), ParagraphStyle('IV', fontName='Helvetica', fontSize=8, textColor=color_gray)),
+            Paragraph(f"<font color='{est_color}'><b>{estatus}</b></font>", ParagraphStyle('IV', fontName='Helvetica-Bold', fontSize=8)),
+        ])
+
+    idx_table = Table(idx_rows, colWidths=[28, 80, 220, 80, 100])
+    idx_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), color_black),
+        ('LINELEFT', (0, 0), (0, 0), 3, color_red),
+        ('LINEBELOW', (0, 1), (-1, -1), 0.4, colors.HexColor("#E2E8F0")),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, color_light]),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+        ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#CBD5E1")),
+    ]))
+    cover_story.append(idx_table)
+
+    cover_story.append(Spacer(1, 30))
+    cover_story.append(HRFlowable(width="100%", thickness=2, color=color_red))
+    cover_story.append(Spacer(1, 8))
+    cover_story.append(Paragraph(
+        "<b>Industria Sigrama S.A. de C.V.</b> &bull; División de Manufactura e Industria 4.0 &bull; <i>Ingeniería que da resultados!!</i>",
+        ParagraphStyle('CPie', fontName='Helvetica', fontSize=8, alignment=1, textColor=color_gray)
+    ))
+
+    cover_doc.build(cover_story)
+    cover_buffer.seek(0)
+    cover_reader = PdfReader(cover_buffer)
+    for page in cover_reader.pages:
+        writer.add_page(page)
+
+    # -------------------------------------------------------------------------
+    # 2. FICHAS TÉCNICAS INDIVIDUALES (una por activo)
+    # -------------------------------------------------------------------------
+    for asset in assets_list:
+        try:
+            asset_id = str(asset.get("ID_Activo", ""))
+            docs = get_asset_documents(asset_id)
+            ficha_buffer = generate_asset_pdf(asset, docs_list=docs)
+            ficha_reader = PdfReader(ficha_buffer)
+            for page in ficha_reader.pages:
+                writer.add_page(page)
+        except Exception as e:
+            print(f"Error generando ficha para {asset.get('ID_Activo','?')}: {e}")
+            continue
+
+    # -------------------------------------------------------------------------
+    # 3. MERGE FINAL
+    # -------------------------------------------------------------------------
+    out = BytesIO()
+    writer.write(out)
+    out.seek(0)
+    return out
 
 def _generate_demo_photo(asset_id: str, title: str, model: str, area: str) -> str:
     """Genera una imagen gráfica representativa del activo para demostración."""
