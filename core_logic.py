@@ -136,7 +136,7 @@ CATEGORIAS_DICT = {
     ]
 }
 
-AREAS_PRODUCCION = ["Corte", "Doblez", "Pintura", "Ensamblado", "Logística"]
+AREAS_PRODUCCION = ["Corte", "Doblez", "Acabados", "Pintura", "Ensamblado", "Logística"]
 ESTATUS_OPCIONES = ["Operativo", "En Mantenimiento", "Crítico"]
 
 
