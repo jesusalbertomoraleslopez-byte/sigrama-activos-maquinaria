@@ -81,7 +81,8 @@ with st.sidebar:
             "➕ 2. Registro de Activos",
             "🔍 3. Consulta y Ficha Técnica",
             "📦 4. Compendio de Fichas PDF",
-            "⚙️ 5. Configuración y Respaldos"
+            "⚙️ 5. Configuración y Respaldos",
+            "📘 6. Manual e Industria 4.0",
         ],
         index=0,
         label_visibility="collapsed"
@@ -1134,3 +1135,243 @@ git push -u origin main
                 st.info("Directorio aún no inicializado como repositorio Git. Puede ejecutar `git init` en la consola.")
         except Exception:
             st.info("Git no detectado o no disponible en el PATH del sistema.")
+
+
+# =============================================================================
+# 📘 6. MANUAL E INDUSTRIA 4.0
+# =============================================================================
+elif menu == "📘 6. Manual e Industria 4.0":
+
+    st.markdown("""
+        <div style="margin-bottom: 1.2rem;">
+            <h1 style="color: #111111; margin: 0; font-size: 2rem;">
+                📘 Manual, Arquitectura Industria 4.0 &amp; Stack Tecnológico
+            </h1>
+            <p style="color: #64748B; margin: 0.2rem 0 0 0; font-size: 0.95rem;">
+                Documentación técnica, identidad corporativa y manual operativo de la
+                <b>APP ACTIVOS — Maquinaria y Herramientas · SIGRAMA</b>.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    tab_manual, tab_i4, tab_stack, tab_identidad = st.tabs([
+        "📖 Manual Operativo",
+        "🏭 Arquitectura Industria 4.0",
+        "💻 Stack Tecnológico",
+        "🎨 Identidad Corporativa",
+    ])
+
+    # ─── TAB 1: MANUAL OPERATIVO ──────────────────────────────────────────────
+    with tab_manual:
+        st.subheader("📖 Manual de Operación — Paso a Paso")
+        st.markdown("""
+> Esta aplicación gestiona el **registro, consulta, documentación y reporte** de todos
+> los activos fijos de Maquinaria y Herramientas de **Industria Sigrama S.A. de C.V.**,
+> cumpliendo con la normativa fiscal SAT (CFDI / LISR Art. 31-38) e Industria 4.0.
+        """)
+
+        steps = [
+            ("📌", "1. Inicio / Dashboard",
+             "Visualiza el KPI global de la planta: total de activos, distribución por área "
+             "y por estatus operativo. Identifica rápidamente equipos críticos o en mantenimiento."),
+            ("➕", "2. Registro de Activos",
+             "Captura un nuevo equipo en **una sola hoja continua** (scroll). "
+             "Carga la fotografía del equipo en la parte superior para no perder el contexto. "
+             "El panel derecho muestra una vista preliminar en tiempo real con el QR generado automáticamente. "
+             "Al guardar, se crea el ID único `CTR-LAS-001`, se persiste en `inventario_activos.xlsx` "
+             "y se genera el código QR oficial en `media/qrs/`."),
+            ("🔍", "3. Consulta y Ficha Técnica",
+             "Busca por Área, Categoría, Estatus o texto libre. Descarga la **Ficha Técnica Oficial en PDF** "
+             "con logotipo SIGRAMA, datos técnicos, cumplimiento SAT/CFDI y 3 líneas de firma. "
+             "Gestiona el **Repositorio de Documentos** del activo: sube manuales PDF, gamas Excel, "
+             "certificados, planos y descárgalos o elimínalos en cualquier momento. "
+             "El PDF incluye un checklist ✔/✗ de la documentación disponible."),
+            ("📦", "4. Compendio de Fichas PDF",
+             "Filtra por Área, Categoría o Estatus. Selecciona activos con **casillas de verificación** "
+             "(estilo Remisiones de Tarimas). Usa 'Seleccionar todos' para lotes completos. "
+             "Genera un **PDF compendio multi-página** con portada institucional + índice de activos "
+             "en colores y una ficha técnica completa por equipo. "
+             "Descarga el archivo como `Compendio_SIGRAMA_Corte_20260917.pdf`."),
+            ("⚙️", "5. Configuración y Respaldos",
+             "Exporta el inventario completo a Excel `.xlsx`. Administra el repositorio Git local "
+             "para versionar los datos. Sincroniza con GitHub para respaldo en la nube."),
+        ]
+
+        for icon, title, desc in steps:
+            st.markdown(f"""
+            <div style="display:flex; gap:14px; align-items:flex-start; margin-bottom:18px;
+                        background:#F8FAFC; border:1px solid #E2E8F0; border-left:4px solid #EC2024;
+                        border-radius:8px; padding:14px 16px;">
+                <div style="font-size:1.8rem; line-height:1;">{icon}</div>
+                <div>
+                    <div style="font-family:'Montserrat',sans-serif; font-weight:700;
+                                font-size:0.95rem; color:#111111; margin-bottom:4px;">{title}</div>
+                    <div style="font-size:0.85rem; color:#475569; line-height:1.5;">{desc}</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.info("💡 **Tip:** El inventario se persiste en el archivo `inventario_activos.xlsx`. "
+                "Los documentos se almacenan en `media/documentos/<ID_Activo>/`. "
+                "Las fotografías en `media/fotos_activos/` y los QRs en `media/qrs/`.")
+
+    # ─── TAB 2: ARQUITECTURA INDUSTRIA 4.0 ────────────────────────────────────
+    with tab_i4:
+        st.subheader("🏭 El Hilo Digital (Digital Thread) en SIGRAMA")
+        st.markdown("""
+Esta aplicación es el **nodo de Gestión de Activos Físicos (PAM)** dentro del
+ecosistema de Industria 4.0 de Sigrama, conectado digitalmente con los demás sistemas:
+        """)
+
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.markdown("""
+#### 🔗 Ecosistema Digital SIGRAMA
+
+| Aplicación | Función | Vínculo |
+|---|---|---|
+| **APP ACTIVOS** *(esta app)* | Registro y trazabilidad de maquinaria y herramientas | 🔴 Nodo central PAM |
+| **PO Tracker** | Control de Órdenes de Compra (OCR + CFDI) | Adquisición → activo |
+| **Corte & Doblez** | Control de producción en piso de planta | Usa los activos registrados |
+| **Remisiones** | Embarque y logística de material | Despacha usando maquinaria |
+
+            """)
+
+        with col_b:
+            st.markdown("""
+#### 🏗️ Pilares Industria 4.0 Implementados
+
+- **🔗 Interoperabilidad:** Excel `.xlsx` como capa de integración con ERP existente.
+- **📡 Transparencia de la Información:** Fichas técnicas con QR escaneable en piso de planta.
+- **🤖 Asistencia Técnica:** Generación automática de IDs únicos, QRs y PDFs ejecutivos.
+- **📊 Decisiones Descentralizadas:** Acceso local sin dependencia de servidor central.
+- **🔐 Trazabilidad Fiscal SAT:** UUID CFDI, RFC, Pedimento Aduanal y LISR Art. 31-38.
+- **📁 Repositorio Digital por Activo:** Documentos vinculados por `ID_Activo` en carpeta local.
+            """)
+
+        st.markdown("---")
+        st.markdown("""
+#### 📐 Flujo de Datos del Activo
+
+```
+ADQUISICIÓN                 REGISTRO                  OPERACIÓN               AUDITORÍA
+─────────────               ─────────                 ─────────               ─────────
+Factura CFDI           →   APP ACTIVOS          →   QR en Planta       →   PDF Oficial
+UUID / RFC                  ID Único                   Escaneo Rápido          Checklist Docs
+Pedimento Aduanal          Foto del Equipo             Mantenimiento           Firma Digital
+MOI + LISR                 Repositorio Docs            Control Corte/Doblez    Git Respaldo
+```
+        """)
+
+    # ─── TAB 3: STACK TECNOLÓGICO ──────────────────────────────────────────────
+    with tab_stack:
+        st.subheader("💻 Stack Tecnológico de la Aplicación")
+
+        col_s1, col_s2 = st.columns(2)
+        with col_s1:
+            st.markdown("""
+#### 🖥️ Frontend & UI
+| Componente | Versión | Rol |
+|---|---|---|
+| **Streamlit** | ≥ 1.30 | Framework de interfaz web local |
+| **CSS Corporativo** | Personalizado | Identidad SIGRAMA (Montserrat, Questrial) |
+| **Plotly Express** | ≥ 5.x | Gráficas del Dashboard Kanban |
+
+#### 💾 Persistencia de Datos
+| Componente | Versión | Rol |
+|---|---|---|
+| **Pandas** | ≥ 2.0 | Manipulación del inventario |
+| **OpenPyXL** | ≥ 3.1 | Lectura/escritura de `.xlsx` |
+| **JSON** | stdlib | Índice de documentos por activo |
+| **OS / pathlib** | stdlib | Gestión de archivos locales |
+            """)
+        with col_s2:
+            st.markdown("""
+#### 📄 Generación de Documentos
+| Componente | Versión | Rol |
+|---|---|---|
+| **ReportLab** | ≥ 4.0 | Fichas Técnicas PDF ejecutivas |
+| **pypdf** | ≥ 4.0 | Fusión multi-página Compendio PDF |
+| **qrcode** | ≥ 7.4 | Generación de códigos QR |
+| **Pillow (PIL)** | ≥ 10.0 | Procesamiento de imágenes |
+| **PyMuPDF (fitz)** | ≥ 1.27 | Renderizado y validación PDF |
+
+#### 🔧 DevOps & Control de Versiones
+| Componente | Rol |
+|---|---|
+| **Git** | Control de versiones local |
+| **GitHub** | Respaldo y colaboración en la nube |
+| **Python 3.12** | Entorno de ejecución |
+            """)
+
+        st.markdown("---")
+        st.markdown("""
+#### 📦 Instalación Rápida
+```bash
+# Clonar el repositorio
+git clone https://github.com/sigrama-mx/sigrama-activos-maquinaria.git
+cd sigrama-activos-maquinaria
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Ejecutar la aplicación
+streamlit run app.py
+```
+        """)
+
+    # ─── TAB 4: IDENTIDAD CORPORATIVA ─────────────────────────────────────────
+    with tab_identidad:
+        st.subheader("🎨 Manual de Identidad Corporativa Oficial — Industria Sigrama S.A. de C.V.")
+
+        id_c1, id_c2 = st.columns(2)
+        with id_c1:
+            # Mostrar logo
+            if logo_path.exists():
+                st.image(str(logo_path), width=260)
+            st.markdown("""
+#### 🔴 Paleta de Color Institucional
+
+| Color | Código | Uso |
+|---|---|---|
+| **PANTONE® 485 C** | `#EC2024` | Botones, acentos, bordes activos |
+| **PANTONE® Black 7 C** | `#111111` | Sidebar, encabezados, tipografía |
+| **Gris Técnico** | `#E2E8F0` | Bordes de tarjeta, fondos suaves |
+| **Blanco Puro** | `#FFFFFF` | Fondo principal de contenido |
+
+            """)
+
+        with id_c2:
+            st.markdown("""
+#### ✍️ Tipografía Oficial
+
+- **Títulos / Logotipo:** `Montserrat` — Bold 700 / ExtraBold 900
+- **Cuerpo / Formularios:** `Questrial` — Regular 400
+
+#### 💬 Lemas Oficiales
+
+> <span style="color:#EC2024; font-family:'Montserrat',sans-serif; font-weight:bold; font-size:1rem;">
+> SOLUCIONES QUE TRANSFORMAN TU EMPRESA
+> </span>
+
+> <span style="font-family:'Questrial',sans-serif; font-style:italic; font-size:0.95rem;
+>              border-bottom:2px solid #EC2024; padding-bottom:2px;">
+> Ingeniería que da resultados!!
+> </span>
+
+#### 🛠️ Suite de Aplicaciones SIGRAMA
+
+La plataforma de herramientas digitales de SIGRAMA mantiene una línea de diseño
+unificada en todas sus aplicaciones:
+
+- 🔴 **APP ACTIVOS** — Maquinaria y Herramientas *(esta app)*
+- 📬 **PO Tracker** — Órdenes de Compra con OCR
+- ✂️ **Corte & Doblez** — Control de Producción en Planta
+- 🚚 **Remisiones** — Embarques y Logística de Material
+
+Todas comparten: logotipo oficial, paleta `#EC2024 / #111111`, fuentes
+`Montserrat` & `Questrial`, y barra lateral corporativa oscura.
+            """, unsafe_allow_html=True)
+
+        st.info("📌 Esta aplicación cumple con las especificaciones del **Manual de Identidad Corporativa "
+                "de Industria Sigrama S.A. de C.V.** — Revisión vigente.")
