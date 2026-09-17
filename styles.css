@@ -1,0 +1,254 @@
+/* 
+  styles.css
+  Identidad Visual Corporativa SIGRAMA - Industria 4.0 & ERP/MES
+*/
+
+:root {
+    --primary-blue: #0B4F8A;
+    --primary-hover: #073863;
+    --accent-blue: #0072CE;
+    --navy-dark: #072A4A;
+    --bg-light: #F4F6F9;
+    --card-bg: #FFFFFF;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    --border-color: #E2E8F0;
+    --status-operativo: #10B981;
+    --status-mantenimiento: #F59E0B;
+    --status-critico: #EF4444;
+}
+
+/* Fondo general de la aplicación */
+.stApp {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+/* Barra Lateral (Sidebar) */
+section[data-testid="stSidebar"] {
+    background-color: #FFFFFF;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
+}
+
+/* Header del Sidebar Corporativo */
+.sidebar-brand-box {
+    padding: 1.2rem 1rem;
+    background: linear-gradient(135deg, #072A4A 0%, #0B4F8A 100%);
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(11, 79, 138, 0.25);
+}
+
+.sidebar-brand-box h2 {
+    color: #FFFFFF !important;
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.sidebar-brand-box p {
+    color: #93C5FD !important;
+    font-size: 0.75rem !important;
+    margin: 4px 0 0 0 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tarjetas de Métricas / KPIs */
+.kpi-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(11, 79, 138, 0.08);
+    border-color: #CBD5E1;
+}
+
+.kpi-card .kpi-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.kpi-card .kpi-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    line-height: 1.1;
+}
+
+.kpi-card .kpi-subtitle {
+    font-size: 0.75rem;
+    color: #94A3B8;
+    margin-top: 5px;
+}
+
+/* Módulo Kanban Estilo Odoo */
+.kanban-container {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+
+.kanban-column {
+    background-color: #EEF2F6;
+    border-radius: 12px;
+    min-width: 250px;
+    max-width: 280px;
+    flex: 1;
+    padding: 0.85rem;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+}
+
+.kanban-column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--navy-dark);
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+.kanban-badge {
+    background-color: var(--primary-blue);
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.kanban-card {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 0.9rem;
+    margin-bottom: 0.75rem;
+    border-left: 4px solid var(--primary-blue);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.kanban-card:hover {
+    box-shadow: 0 5px 12px rgba(11, 79, 138, 0.12);
+    transform: translateY(-2px);
+}
+
+.kanban-card-id {
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: var(--primary-blue);
+}
+
+.kanban-card-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 4px 0 6px 0;
+    line-height: 1.2;
+}
+
+.kanban-card-meta {
+    font-size: 0.75rem;
+    color: #64748B;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+/* Badges de Estado */
+.status-pill {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.status-operativo {
+    background-color: #DEF7EC;
+    color: #03543F;
+}
+
+.status-mantenimiento {
+    background-color: #FEF08A;
+    color: #78350F;
+}
+
+.status-critico {
+    background-color: #FDE8E8;
+    color: #9B1C1C;
+}
+
+/* Ficha Técnica Ejecutiva */
+.ficha-box {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.section-badge {
+    background-color: #EFF6FF;
+    color: var(--primary-blue);
+    border-left: 4px solid var(--primary-blue);
+    padding: 0.4rem 0.8rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    border-radius: 0 6px 6px 0;
+}
+
+/* Botones Principales */
+div.stButton > button:first-child {
+    background: linear-gradient(135deg, #0B4F8A 0%, #073863 100%) !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 0.5rem 1.2rem !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(11, 79, 138, 0.2) !important;
+}
+
+div.stButton > button:first-child:hover {
+    background: linear-gradient(135deg, #0072CE 0%, #0B4F8A 100%) !important;
+    box-shadow: 0 4px 10px rgba(11, 79, 138, 0.3) !important;
+    transform: translateY(-1px);
+}
+
+/* Tabs personalizadas */
+button[data-baseweb="tab"] {
+    font-weight: 600 !important;
+    color: #475569 !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: var(--primary-blue) !important;
+    border-bottom: 3px solid var(--primary-blue) !important;
+}

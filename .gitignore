@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+venv/
+ENV/
+
+# Streamlit
+.streamlit/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Optional: keep media folders tracked with gitkeep if empty
+!media/
+!media/fotos_activos/
+!media/qrs/
