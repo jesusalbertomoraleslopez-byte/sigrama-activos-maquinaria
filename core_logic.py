@@ -332,207 +332,385 @@ def register_new_asset(asset_data: Dict[str, Any], uploaded_file=None) -> Tuple[
 def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
     """
     Genera la Ficha Técnica Ejecutiva del activo en formato PDF
-    utilizando ReportLab, con diseño a dos columnas y branding SIGRAMA.
+    utilizando ReportLab, con el logotipo oficial de SIGRAMA,
+    diseño ejecutivo a dos columnas y cumplimiento normativo SAT.
     """
     buffer = BytesIO()
+    # Márgenes calibrados para diseño ejecutivo en 1 sola página
     doc = SimpleDocTemplate(
         buffer,
         pagesize=letter,
-        leftMargin=36,
-        rightMargin=36,
-        topMargin=36,
-        bottomMargin=36
+        leftMargin=30,
+        rightMargin=30,
+        topMargin=26,
+        bottomMargin=26
     )
 
     styles = getSampleStyleSheet()
-    primary_color = colors.HexColor("#EC2024")     # PANTONE 485 C
-    secondary_color = colors.HexColor("#111111")   # PANTONE Black 7 C
-    bg_light = colors.HexColor("#F8FAFC")
-    dark_gray = colors.HexColor("#2D3748")
+    color_red = colors.HexColor("#EC2024")       # PANTONE 485 C
+    color_black = colors.HexColor("#111111")     # PANTONE Black 7 C
+    color_gray = colors.HexColor("#475569")
+    color_light = colors.HexColor("#F8FAFC")
+    border_color = colors.HexColor("#CBD5E1")
 
-    title_style = ParagraphStyle(
-        'DocTitle',
+    # Estilos tipográficos
+    title_corp = ParagraphStyle(
+        'TitleCorp',
         parent=styles['Heading1'],
         fontName='Helvetica-Bold',
-        fontSize=15,
-        leading=18,
-        textColor=secondary_color
+        fontSize=12.5,
+        leading=15,
+        textColor=color_black
     )
-    subtitle_style = ParagraphStyle(
-        'DocSubTitle',
+    subtitle_corp = ParagraphStyle(
+        'SubCorp',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=9,
-        leading=13,
-        textColor=colors.HexColor("#4A5568")
+        fontSize=7.5,
+        leading=10,
+        textColor=color_gray
     )
-    section_heading = ParagraphStyle(
-        'SectionHeading',
-        parent=styles['Heading2'],
-        fontName='Helvetica-Bold',
-        fontSize=10.5,
-        leading=14,
-        textColor=primary_color
-    )
-    cell_bold = ParagraphStyle(
-        'CellBold',
-        parent=styles['Normal'],
-        fontName='Helvetica-Bold',
-        fontSize=8.5,
-        leading=11,
-        textColor=secondary_color
-    )
-    cell_normal = ParagraphStyle(
-        'CellNormal',
+    meta_box_style = ParagraphStyle(
+        'MetaBox',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=8.5,
-        leading=11,
-        textColor=dark_gray
+        fontSize=7.5,
+        leading=10.5,
+        textColor=color_black,
+        alignment=2 # Right
+    )
+    section_title_style = ParagraphStyle(
+        'SecTitle',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=8,
+        leading=10,
+        textColor=colors.white
+    )
+    cell_label = ParagraphStyle(
+        'CellLabel',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=7.5,
+        leading=9.5,
+        textColor=color_black
+    )
+    cell_val = ParagraphStyle(
+        'CellVal',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=7.5,
+        leading=9.5,
+        textColor=color_gray
+    )
+    cell_val_bold = ParagraphStyle(
+        'CellValBold',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=8,
+        leading=10,
+        textColor=color_black
     )
 
     story = []
 
-    # Encabezado Corporativo con Logotipo Oficial
+    # =========================================================================
+    # 1. ENCABEZADO CON LOGOTIPO OFICIAL SIGRAMA
+    # =========================================================================
     logo_file = "logo_sigrama.png"
     if os.path.exists(logo_file):
         try:
-            rl_logo = RLImage(logo_file, width=135, height=38)
-            header_cell_left = [
+            # Dimensiones proporcionales exactas para el logotipo
+            rl_logo = RLImage(logo_file, width=150, height=45)
+            left_header_content = [
                 rl_logo,
-                Spacer(1, 4),
-                Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b><br/><font size=8 color='#64748B'>División de Manufactura 4.0 & Control de Activos</font>", title_style)
+                Spacer(1, 2),
+                Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b>", title_corp),
+                Paragraph("División de Manufactura 4.0 &bull; Control Central de Planta", subtitle_corp)
             ]
         except Exception:
-            header_cell_left = Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b><br/>División de Manufactura e Industria 4.0", title_style)
+            left_header_content = [
+                Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b>", title_corp),
+                Paragraph("División de Manufactura 4.0 &bull; Control Central de Planta", subtitle_corp)
+            ]
     else:
-        header_cell_left = Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b><br/>División de Manufactura e Industria 4.0", title_style)
-
-    header_data = [
-        [
-            header_cell_left,
-            Paragraph(f"<b>FICHA TÉCNICA OFICIAL</b><br/>Emisión: {datetime.now().strftime('%d/%m/%Y')}<br/>Clave: <b><font color='#EC2024'>{asset.get('ID_Activo', 'N/A')}</font></b>", subtitle_style)
+        left_header_content = [
+            Paragraph("<font color='#EC2024' size=16><b>SIGRAMA</b></font><br/><b>INDUSTRIA SIGRAMA S.A. DE C.V.</b>", title_corp),
+            Paragraph("División de Manufactura 4.0 &bull; Control Central de Planta", subtitle_corp)
         ]
-    ]
-    header_table = Table(header_data, colWidths=[350, 190])
+
+    meta_text = f"""
+    <b>DOCUMENTO CONTROLADO</b><br/>
+    Código: <b>SIG-AF-2026</b> &bull; Rev: <b>02</b><br/>
+    Emisión: <b>{datetime.now().strftime('%d/%m/%Y %H:%M')}</b><br/>
+    Clave Activo: <font color='#EC2024' size=9><b>{asset.get('ID_Activo', 'N/A')}</b></font><br/>
+    Planta: <b>Planta Principal México</b>
+    """
+    right_header_content = Paragraph(meta_text, meta_box_style)
+
+    header_table = Table([[left_header_content, right_header_content]], colWidths=[360, 192])
     header_table.setStyle(TableStyle([
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+        ('TOPPADDING', (0, 0), (-1, -1), 0),
     ]))
     story.append(header_table)
     story.append(Spacer(1, 4))
-    story.append(HRFlowable(width="100%", thickness=2.5, color=primary_color, spaceBefore=4, spaceAfter=10))
 
-    # Banner del Activo
-    nombre_eq = asset.get('Nombre_Equipo', 'Sin Nombre')
-    estatus_eq = asset.get('Estatus_Operativo', 'Operativo')
-    banner_text = f"<b>{nombre_eq}</b> | Categoría: {asset.get('Categoria', '')} - {asset.get('Subcategoria', '')} | Estatus: <b>{estatus_eq}</b>"
-    banner_p = Paragraph(banner_text, ParagraphStyle('Banner', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=9.5, textColor=colors.white))
-    banner_table = Table([[banner_p]], colWidths=[540])
+    # Línea decorativa corporativa Rojo Pantone 485 C
+    story.append(HRFlowable(width="100%", thickness=2.5, color=color_red, spaceBefore=2, spaceAfter=6))
+
+    # =========================================================================
+    # 2. BANNER PRINCIPAL DEL ACTIVO
+    # =========================================================================
+    nombre_eq = str(asset.get('Nombre_Equipo', 'Sin Nombre')).upper()
+    estatus_eq = str(asset.get('Estatus_Operativo', 'Operativo')).upper()
+    cat_sub = f"{asset.get('Categoria', '')} &bull; {asset.get('Subcategoria', '')}"
+    area_eq = str(asset.get('Area_Produccion', 'N/A')).upper()
+
+    banner_p1 = Paragraph(f"<b>{nombre_eq}</b><br/><font size=7.5 color='#CBD5E1'>{cat_sub} &bull; ÁREA: {area_eq}</font>", ParagraphStyle('BnrP1', parent=styles['Normal'], textColor=colors.white, fontName='Helvetica'))
+    banner_p2 = Paragraph(f"ESTATUS:<br/><b>{estatus_eq}</b>", ParagraphStyle('BnrP2', parent=styles['Normal'], textColor=colors.white, alignment=2, fontName='Helvetica-Bold', fontSize=8.5))
+
+    banner_table = Table([[banner_p1, banner_p2]], colWidths=[420, 132])
     banner_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), secondary_color),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-        ('LEFTPADDING', (0, 0), (-1, -1), 10),
-        ('LINEBELOW', (0, 0), (-1, -1), 2, primary_color),
+        ('BACKGROUND', (0, 0), (-1, -1), color_black),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 8),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+        ('LINELEFT', (1, 0), (1, 0), 2, color_red),
     ]))
     story.append(banner_table)
-    story.append(Spacer(1, 10))
+    story.append(Spacer(1, 7))
 
-    # Columna Izquierda: Datos Técnicos, Fiscales, Financieros
-    tech_data = [
-        [Paragraph("SECCIÓN A: IDENTIFICACIÓN TÉCNICA", section_heading), ""],
-        [Paragraph("Marca:", cell_bold), Paragraph(str(asset.get('Marca', '')), cell_normal)],
-        [Paragraph("Modelo:", cell_bold), Paragraph(str(asset.get('Modelo', '')), cell_normal)],
-        [Paragraph("Número de Serie:", cell_bold), Paragraph(str(asset.get('Numero_Serie', '')), cell_normal)],
-        [Paragraph("Área de Producción:", cell_bold), Paragraph(str(asset.get('Area_Produccion', '')), cell_normal)],
-        [Paragraph("Responsable Asignado:", cell_bold), Paragraph(str(asset.get('Responsable', '')), cell_normal)],
-        
-        [Paragraph("SECCIÓN B: CUMPLIMIENTO FISCAL (SAT)", section_heading), ""],
-        [Paragraph("UUID CFDI:", cell_bold), Paragraph(str(asset.get('UUID_CFDI', '')), cell_normal)],
-        [Paragraph("RFC Proveedor:", cell_bold), Paragraph(str(asset.get('RFC_Proveedor', '')), cell_normal)],
-        [Paragraph("Uso de CFDI:", cell_bold), Paragraph(str(asset.get('Uso_CFDI', '')), cell_normal)],
-        [Paragraph("Equipo Importado:", cell_bold), Paragraph("SÍ" if asset.get('Es_Importado') else "NO", cell_normal)],
-        [Paragraph("No. Pedimento:", cell_bold), Paragraph(str(asset.get('Numero_Pedimento', 'N/A')), cell_normal)],
+    # =========================================================================
+    # 3. CUERPO A DOS COLUMNAS
+    # =========================================================================
+    # --- COLUMNA IZQUIERDA: ESPECIFICACIONES TÉCNICAS, SAT Y FINANZAS ---
+    sec_hdr_style = ParagraphStyle('SecHdr', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=7.5, textColor=colors.white)
 
-        [Paragraph("SECCIÓN C: FINANCIERA (Art. 31-38 LISR)", section_heading), ""],
-        [Paragraph("MOI Neto:", cell_bold), Paragraph(f"${float(asset.get('MOI_Neto', 0) or 0):,.2f} MXN", cell_normal)],
-        [Paragraph("Gastos Inherentes:", cell_bold), Paragraph(f"${float(asset.get('Gastos_Inherentes', 0) or 0):,.2f} MXN", cell_normal)],
-        [Paragraph("Inversión Total:", cell_bold), Paragraph(f"<b>${float(asset.get('Inversion_Total', 0) or 0):,.2f} MXN</b>", cell_normal)],
-        [Paragraph("Tasa Depr. Anual:", cell_bold), Paragraph(f"{asset.get('Tasa_Depreciacion_Anual', 10)}%", cell_normal)],
-        [Paragraph("Fecha Adquisición:", cell_bold), Paragraph(str(asset.get('Fecha_Adquisicion', '')), cell_normal)],
-        [Paragraph("Inicio de Uso:", cell_bold), Paragraph(str(asset.get('Fecha_Inicio_Uso', '')), cell_normal)],
+    # Bloque 1: Identificación Técnica
+    t1_hdr = [Paragraph("1. IDENTIFICACIÓN TÉCNICA Y DE PLANTA", sec_hdr_style), ""]
+    t1_rows = [
+        t1_hdr,
+        [Paragraph("Fabricante / Marca:", cell_label), Paragraph(str(asset.get('Marca', 'N/A')), cell_val)],
+        [Paragraph("Modelo Oficial:", cell_label), Paragraph(str(asset.get('Modelo', 'N/A')), cell_val)],
+        [Paragraph("Número de Serie:", cell_label), Paragraph(f"<code>{asset.get('Numero_Serie', 'N/A')}</code>", cell_val_bold)],
+        [Paragraph("Estación / Área:", cell_label), Paragraph(f"<b>{asset.get('Area_Produccion', 'N/A')}</b>", cell_val_bold)],
+        [Paragraph("Custodio Asignado:", cell_label), Paragraph(str(asset.get('Responsable', 'N/A')), cell_val)],
     ]
-
-    left_table = Table(tech_data, colWidths=[110, 200])
-    left_table.setStyle(TableStyle([
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    table_tec = Table(t1_rows, colWidths=[105, 215])
+    table_tec.setStyle(TableStyle([
         ('SPAN', (0, 0), (1, 0)),
-        ('SPAN', (0, 6), (1, 6)),
-        ('SPAN', (0, 12), (1, 12)),
-        ('LINEBELOW', (0, 0), (1, 0), 1, primary_color),
-        ('LINEBELOW', (0, 6), (1, 6), 1, primary_color),
-        ('LINEBELOW', (0, 12), (1, 12), 1, primary_color),
-        ('TOPPADDING', (0, 0), (-1, -1), 2.5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 2.5),
+        ('BACKGROUND', (0, 0), (1, 0), color_black),
+        ('LINELEFT', (0, 0), (0, 0), 3, color_red),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 1.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 1.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 4),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 4),
+        ('LINEBELOW', (0, 1), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
     ]))
 
-    # Columna Derecha: Imagen y Código QR
-    right_elements = []
-    
-    # Imagen del activo
+    # Bloque 2: Cumplimiento Fiscal SAT
+    es_imp = asset.get('Es_Importado', False)
+    pedimento_val = str(asset.get('Numero_Pedimento', 'N/A')) if es_imp else "No aplica (Adquisición Nacional)"
+    origen_val = "Extranjera (Importado)" if es_imp else "Nacional Mexicana"
+
+    t2_hdr = [Paragraph("2. CUMPLIMIENTO FISCAL Y LEGAL (AUDITORÍAS SAT)", sec_hdr_style), ""]
+    t2_rows = [
+        t2_hdr,
+        [Paragraph("UUID Folio Fiscal:", cell_label), Paragraph(f"<font size=6.5><code>{asset.get('UUID_CFDI', 'N/A')}</code></font>", cell_val)],
+        [Paragraph("RFC Proveedor Emisor:", cell_label), Paragraph(f"<b>{asset.get('RFC_Proveedor', 'N/A')}</b>", cell_val_bold)],
+        [Paragraph("Uso de CFDI (Catálogo):", cell_label), Paragraph(str(asset.get('Uso_CFDI', 'N/A')), cell_val)],
+        [Paragraph("Procedencia del Bien:", cell_label), Paragraph(origen_val, cell_val)],
+        [Paragraph("Pedimento Aduanal:", cell_label), Paragraph(pedimento_val, cell_val_bold)],
+    ]
+    table_sat = Table(t2_rows, colWidths=[105, 215])
+    table_sat.setStyle(TableStyle([
+        ('SPAN', (0, 0), (1, 0)),
+        ('BACKGROUND', (0, 0), (1, 0), color_black),
+        ('LINELEFT', (0, 0), (0, 0), 3, color_red),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 1.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 1.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 4),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 4),
+        ('LINEBELOW', (0, 1), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
+    ]))
+
+    # Bloque 3: Información Financiera LISR
+    moi_f = float(asset.get('MOI_Neto', 0) or 0)
+    gastos_f = float(asset.get('Gastos_Inherentes', 0) or 0)
+    tot_f = float(asset.get('Inversion_Total', 0) or 0)
+    depr_rate = float(asset.get('Tasa_Depreciacion_Anual', 10) or 10)
+
+    t3_hdr = [Paragraph("3. INFORMACIÓN FINANCIERA (ART. 31-38 LISR)", sec_hdr_style), ""]
+    t3_rows = [
+        t3_hdr,
+        [Paragraph("MOI Neto (sin IVA):", cell_label), Paragraph(f"${moi_f:,.2f} MXN", cell_val)],
+        [Paragraph("Gastos Inherentes:", cell_label), Paragraph(f"${gastos_f:,.2f} MXN", cell_val)],
+        [Paragraph("Inversión Total:", cell_label), Paragraph(f"<font color='#EC2024'><b>${tot_f:,.2f} MXN</b></font>", cell_val_bold)],
+        [Paragraph("Tasa Depreciación Fiscal:", cell_label), Paragraph(f"<b>{depr_rate}% anual (LISR)</b>", cell_val_bold)],
+        [Paragraph("Fecha Adquisición:", cell_label), Paragraph(str(asset.get('Fecha_Adquisicion', 'N/A')), cell_val)],
+        [Paragraph("Inicio de Puesta en Uso:", cell_label), Paragraph(str(asset.get('Fecha_Inicio_Uso', 'N/A')), cell_val)],
+    ]
+    table_fin = Table(t3_rows, colWidths=[105, 215])
+    table_fin.setStyle(TableStyle([
+        ('SPAN', (0, 0), (1, 0)),
+        ('BACKGROUND', (0, 0), (1, 0), color_black),
+        ('LINELEFT', (0, 0), (0, 0), 3, color_red),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 1.5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 1.5),
+        ('LEFTPADDING', (0, 0), (-1, -1), 4),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 4),
+        ('LINEBELOW', (0, 1), (-1, -1), 0.5, colors.HexColor("#E2E8F0")),
+    ]))
+
+    left_column_flowables = [
+        table_tec,
+        Spacer(1, 5),
+        table_sat,
+        Spacer(1, 5),
+        table_fin
+    ]
+
+    # --- COLUMNA DERECHA: FOTOGRAFÍA, QR Y SELLO DIGITAL ---
+    right_column_flowables = []
+
+    # 1. Fotografía Real
     foto_rel = str(asset.get('Ruta_Foto', ''))
+    foto_loaded = False
     if foto_rel and os.path.exists(foto_rel):
         try:
-            rl_img = RLImage(foto_rel, width=190, height=140)
-            right_elements.append(Paragraph("<b>REGISTRO FOTOGRÁFICO</b>", section_heading))
-            right_elements.append(Spacer(1, 4))
-            right_elements.append(rl_img)
-            right_elements.append(Spacer(1, 8))
+            rl_img = RLImage(foto_rel, width=220, height=140)
+            pic_table = Table([[Paragraph("<b>REGISTRO FOTOGRÁFICO EN PLANTA</b>", sec_hdr_style)], [rl_img]], colWidths=[224])
+            pic_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), color_black),
+                ('LINELEFT', (0, 0), (-1, 0), 3, color_red),
+                ('ALIGN', (0, 1), (0, 1), 'CENTER'),
+                ('VALIGN', (0, 1), (0, 1), 'MIDDLE'),
+                ('BOX', (0, 0), (-1, -1), 1, border_color),
+                ('TOPPADDING', (0, 0), (-1, -1), 2),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+            ]))
+            right_column_flowables.append(pic_table)
+            foto_loaded = True
         except Exception:
-            right_elements.append(Paragraph("<i>[Error al cargar imagen fotográfica]</i>", cell_normal))
-    else:
-        right_elements.append(Paragraph("<b>REGISTRO FOTOGRÁFICO</b>", section_heading))
-        right_elements.append(Spacer(1, 4))
-        right_elements.append(Paragraph("<i>[Sin fotografía adjunta]</i>", cell_normal))
-        right_elements.append(Spacer(1, 40))
+            pass
 
-    # Código QR
+    if not foto_loaded:
+        no_pic = Table([
+            [Paragraph("<b>REGISTRO FOTOGRÁFICO EN PLANTA</b>", sec_hdr_style)],
+            [Paragraph("<br/><br/><i>[Sin fotografía adjunta registrada]</i><br/><br/>", ParagraphStyle('NP', parent=styles['Normal'], alignment=1, fontSize=8, textColor=color_gray))]
+        ], colWidths=[224])
+        no_pic.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), color_black),
+            ('BOX', (0, 0), (-1, -1), 1, border_color),
+        ]))
+        right_column_flowables.append(no_pic)
+
+    right_column_flowables.append(Spacer(1, 6))
+
+    # 2. Código QR y Tarjeta de Inspección
     qr_rel = str(asset.get('Ruta_QR', ''))
     if qr_rel and os.path.exists(qr_rel):
         try:
-            rl_qr = RLImage(qr_rel, width=120, height=120)
-            right_elements.append(Paragraph("<b>CÓDIGO QR OFICIAL</b>", section_heading))
-            right_elements.append(Spacer(1, 4))
-            right_elements.append(rl_qr)
-            right_elements.append(Paragraph(f"<font size=7>ID: {asset.get('ID_Activo')}</font>", cell_bold))
+            rl_qr = RLImage(qr_rel, width=88, height=88)
+            qr_desc = Paragraph(
+                f"""<b>ETIQUETA OFICIAL SIGRAMA</b><br/>
+                ID: <font color='#EC2024'><b>{asset.get('ID_Activo')}</b></font><br/>
+                <font size=6.5 color='#64748B'>Escanee con terminal móvil o escáner de códigos en piso de planta para validar asignación y trazabilidad en el ERP.</font>
+                """,
+                cell_val
+            )
+            qr_inner = Table([[rl_qr, qr_desc]], colWidths=[94, 126])
+            qr_inner.setStyle(TableStyle([
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                ('LEFTPADDING', (0, 0), (-1, -1), 2),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 2),
+                ('TOPPADDING', (0, 0), (-1, -1), 1),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 1),
+            ]))
+
+            qr_block = Table([
+                [Paragraph("<b>CÓDIGO QR DE INSPECCIÓN FÍSICA</b>", sec_hdr_style)],
+                [qr_inner]
+            ], colWidths=[224])
+            qr_block.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), color_black),
+                ('LINELEFT', (0, 0), (-1, 0), 3, color_red),
+                ('BOX', (0, 0), (-1, -1), 1, border_color),
+                ('TOPPADDING', (0, 0), (-1, -1), 2),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+            ]))
+            right_column_flowables.append(qr_block)
         except Exception:
-            right_elements.append(Paragraph("<i>[QR no disponible]</i>", cell_normal))
-    
-    # Layout 2 Columnas
-    main_layout_data = [[left_table, right_elements]]
-    main_layout = Table(main_layout_data, colWidths=[320, 220])
+            pass
+
+    right_column_flowables.append(Spacer(1, 5))
+
+    # 3. Sello Digital de Control Interno
+    sello_text = f"""
+    <b>SELLO DIGITAL DE AUDITORÍA INTERNA:</b><br/>
+    <font size=5.5 color='#64748B'>
+    SIGRAMA-VERIFY-SHA256:{abs(hash(str(asset.get('ID_Activo')) + str(asset.get('UUID_CFDI'))))}<br/>
+    EXPEDIENTE DE ACTIVO RESGUARDADO EN BASE MAESTRA EXCEL Y SERVIDORES LOCALES.
+    </font>
+    """
+    sello_table = Table([[Paragraph(sello_text, ParagraphStyle('St', parent=styles['Normal'], fontSize=6.5, leading=8))]], colWidths=[224])
+    sello_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), color_light),
+        ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#E2E8F0")),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+    ]))
+    right_column_flowables.append(sello_table)
+
+    # Tabla General del Layout
+    main_layout = Table([[left_column_flowables, right_column_flowables]], colWidths=[324, 228])
     main_layout.setStyle(TableStyle([
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('LEFTPADDING', (1, 0), (1, 0), 15),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+        ('TOPPADDING', (0, 0), (-1, -1), 0),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+        ('LEFTPADDING', (1, 0), (1, 0), 8),
     ]))
     story.append(main_layout)
 
-    # Pie de página con firma y validez
-    story.append(Spacer(1, 20))
-    footer_data = [
+    # =========================================================================
+    # 4. SECCIÓN DE FIRMAS Y VALIDEZ
+    # =========================================================================
+    story.append(Spacer(1, 14))
+
+    firmas_data = [
         [
-            Paragraph("____________________________<br/><b>Responsable de Planta</b><br/>SIGRAMA", cell_normal),
-            Paragraph("____________________________<br/><b>Control Contable y Activos</b><br/>Auditoría SAT", cell_normal),
-            Paragraph("____________________________<br/><b>Supervisión Mantenimiento</b><br/>Industria 4.0", cell_normal)
+            Paragraph("___________________________________<br/><b>Ing. Responsable de Custodia</b><br/><font size=6.5 color='#64748B'>Recepción y Operación en Planta</font>", ParagraphStyle('F1', parent=styles['Normal'], alignment=1, fontSize=7, leading=9)),
+            Paragraph("___________________________________<br/><b>Control Contable y Fiscal</b><br/><font size=6.5 color='#64748B'>Validación CFDI / LISR / SAT</font>", ParagraphStyle('F2', parent=styles['Normal'], alignment=1, fontSize=7, leading=9)),
+            Paragraph("___________________________________<br/><b>Dirección de Operaciones</b><br/><font size=6.5 color='#64748B'>Aprobación Industria 4.0 SIGRAMA</font>", ParagraphStyle('F3', parent=styles['Normal'], alignment=1, fontSize=7, leading=9))
         ]
     ]
-    footer_table = Table(footer_data, colWidths=[180, 180, 180])
-    footer_table.setStyle(TableStyle([
+    firmas_table = Table(firmas_data, colWidths=[184, 184, 184])
+    firmas_table.setStyle(TableStyle([
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('TOPPADDING', (0, 0), (-1, -1), 2),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
     ]))
-    story.append(KeepTogether(footer_table))
+    story.append(KeepTogether(firmas_table))
+
+    # Pie de página institucional
+    story.append(Spacer(1, 8))
+    pie_institucional = Paragraph(
+        "<b>Industria Sigrama S.A. de C.V.</b> &bull; División de Manufactura e Industria 4.0 &bull; <i>Ingeniería que da resultados!!</i> &bull; Documento controlado",
+        ParagraphStyle('Pie', parent=styles['Normal'], alignment=1, fontName='Helvetica', fontSize=6.8, textColor=color_gray)
+    )
+    story.append(pie_institucional)
 
     doc.build(story)
     buffer.seek(0)
