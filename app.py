@@ -1116,8 +1116,8 @@ git commit -m "feat: APP ACTIVOS MAQUINARIA Y HERRAMIENTAS - SIGRAMA v1.0"
 # 4. Establecer rama principal
 git branch -M main
 
-# 5. Vincular repositorio remoto en GitHub (reemplace con su URL)
-git remote add origin https://github.com/TU-USUARIO/APP-ACTIVOS-SIGRAMA.git
+# 5. Vincular repositorio remoto en GitHub oficial
+git remote add origin https://github.com/jesusalbertomoraleslopez-byte/sigrama-activos-maquinaria.git
 
 # 6. Subir cambios a GitHub
 git push -u origin main
@@ -1309,7 +1309,7 @@ MOI + LISR                 Repositorio Docs            Control Corte/Doblez    G
 #### 📦 Instalación Rápida
 ```bash
 # Clonar el repositorio
-git clone https://github.com/sigrama-mx/sigrama-activos-maquinaria.git
+git clone https://github.com/jesusalbertomoraleslopez-byte/sigrama-activos-maquinaria.git
 cd sigrama-activos-maquinaria
 
 # Instalar dependencias
