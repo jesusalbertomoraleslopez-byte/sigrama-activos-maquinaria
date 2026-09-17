@@ -744,6 +744,8 @@ elif menu == "🔍 3. Consulta y Ficha Técnica":
 
                 # Generar y Descargar PDF
                 try:
+                    import importlib
+                    importlib.reload(core)
                     pdf_buffer = core.generate_asset_pdf(activo_row)
                     st.download_button(
                         label="📥 Descargar Ficha Técnica en PDF",

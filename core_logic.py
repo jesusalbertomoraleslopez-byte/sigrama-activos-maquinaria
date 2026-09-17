@@ -22,10 +22,12 @@ from reportlab.platypus import (
 )
 
 # Constantes de Rutas
-EXCEL_FILE = "inventario_activos.xlsx"
-MEDIA_DIR = "media"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+EXCEL_FILE = os.path.join(BASE_DIR, "inventario_activos.xlsx")
+MEDIA_DIR = os.path.join(BASE_DIR, "media")
 FOTOS_DIR = os.path.join(MEDIA_DIR, "fotos_activos")
 QRS_DIR = os.path.join(MEDIA_DIR, "qrs")
+LOGO_FILE = os.path.join(BASE_DIR, "logo_sigrama.png")
 
 # Esquema de Columnas del Inventario
 COLUMNS = [
@@ -417,18 +419,18 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
     # =========================================================================
     # 1. ENCABEZADO CON LOGOTIPO OFICIAL SIGRAMA
     # =========================================================================
-    logo_file = "logo_sigrama.png"
+    logo_file = LOGO_FILE
     if os.path.exists(logo_file):
         try:
-            # Dimensiones proporcionales exactas para el logotipo
-            rl_logo = RLImage(logo_file, width=150, height=45)
+            # Dimensiones proporcionales exactas para el logotipo de 1024x202 px
+            rl_logo = RLImage(logo_file, width=180, height=35.5)
             left_header_content = [
                 rl_logo,
-                Spacer(1, 2),
+                Spacer(1, 3),
                 Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b>", title_corp),
                 Paragraph("División de Manufactura 4.0 &bull; Control Central de Planta", subtitle_corp)
             ]
-        except Exception:
+        except Exception as e:
             left_header_content = [
                 Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b>", title_corp),
                 Paragraph("División de Manufactura 4.0 &bull; Control Central de Planta", subtitle_corp)
@@ -582,6 +584,9 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
 
     # 1. Fotografía Real
     foto_rel = str(asset.get('Ruta_Foto', ''))
+    if foto_rel and not os.path.isabs(foto_rel):
+        foto_rel = os.path.join(BASE_DIR, foto_rel)
+
     foto_loaded = False
     if foto_rel and os.path.exists(foto_rel):
         try:
@@ -616,6 +621,9 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
 
     # 2. Código QR y Tarjeta de Inspección
     qr_rel = str(asset.get('Ruta_QR', ''))
+    if qr_rel and not os.path.isabs(qr_rel):
+        qr_rel = os.path.join(BASE_DIR, qr_rel)
+
     if qr_rel and os.path.exists(qr_rel):
         try:
             rl_qr = RLImage(qr_rel, width=88, height=88)
