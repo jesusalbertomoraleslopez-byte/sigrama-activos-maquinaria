@@ -2,6 +2,7 @@
 app.py
 APP ACTIVOS - MAQUINARIA Y HERRAMIENTAS
 Diseñado para SIGRAMA - Industria 4.0 & Sistemas ERP/MES
+Manual de Identidad Corporativa Oficial: PANTONE 485 C (#EC2024) & PANTONE Black 7 C (#111111)
 """
 
 import os
@@ -9,6 +10,8 @@ import streamlit as st
 import pandas as pd
 from datetime import date, datetime
 import subprocess
+from pathlib import Path
+import base64
 
 import core_logic as core
 
@@ -16,16 +19,21 @@ import core_logic as core
 # Configuración Inicial de la Página
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="APP ACTIVOS - MAQUINARIA Y HERRAMIENTAS | SIGRAMA",
+    page_title="SIGRAMA - Control de Activos, Maquinaria y Herramientas",
     page_icon="🏭",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Inyección de estilos CSS Corporativos
+BASE_DIR = Path(__file__).resolve().parent
+banner_path = BASE_DIR / "banner_sigrama.png"
+logo_neg_path = BASE_DIR / "logo_sigrama_negative.png"
+logo_path = BASE_DIR / "logo_sigrama.png"
+
+# Inyección de estilos CSS Corporativos Oficiales
 def load_css():
-    css_path = os.path.join(os.path.dirname(__file__), "styles.css")
-    if os.path.exists(css_path):
+    css_path = BASE_DIR / "styles.css"
+    if css_path.exists():
         with open(css_path, "r", encoding="utf-8") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
@@ -35,22 +43,39 @@ load_css()
 core.init_excel_db()
 
 # -----------------------------------------------------------------------------
-# Sidebar: Logotipo e Identidad SIGRAMA + Menú Secuencial
+# Sidebar: Logotipo Oficial Sigrama (Manual Corporativo) + Menú Secuencial
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("""
-        <div class="sidebar-brand-box">
-            <h2>🏭 SIGRAMA</h2>
-            <p>Manufactura & Industria 4.0</p>
-            <div style="font-size: 0.68rem; color: #CBD5E1; margin-top: 6px;">
-                Control de Activos y Herramental
-            </div>
+    active_logo = logo_neg_path if logo_neg_path.exists() else (logo_path if logo_path.exists() else None)
+    if active_logo:
+        b64_logo = base64.b64encode(active_logo.read_bytes()).decode()
+        st.markdown(f"""
+        <div style="display: flex; justify-content: center; align-items: center; padding: 4px 0 10px 0;">
+            <img src="data:image/png;base64,{b64_logo}" style="width: 75%; max-width: 200px; height: auto; display: block;" alt="Industria Sigrama">
         </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("<h2 style='color:#EC2024; text-align:center; font-family:\"Montserrat\";'>INDUSTRIA SIGRAMA</h2>", unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="sidebar-badge-box">
+        <div class="sidebar-badge-title">🛡️ CONTROL DE ACTIVOS 4.0</div>
+        <div class="sidebar-badge-subtitle">Gestión de Maquinaria y Herramental</div>
+    </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("### 📋 Navegación")
+    # Indicador de estado de planta
+    st.markdown("""
+    <div style="background: #18181B; border: 1px solid #27272A; border-radius: 6px; padding: 6px 10px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="color: #94A3B8; font-size: 11px;">🏭 Planta: <b style="color: #FFFFFF;">SIGRAMA Central</b></span>
+        <span style="background: #10B981; color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">EN LÍNEA</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<p style='font-family: \"Montserrat\", sans-serif; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Módulos del Sistema:</p>", unsafe_allow_html=True)
+
     menu = st.radio(
-        label="Seleccione un módulo:",
+        label="Navegación:",
         options=[
             "📌 1. Inicio / Dashboard",
             "➕ 2. Registro de Activos",
@@ -61,19 +86,35 @@ with st.sidebar:
         label_visibility="collapsed"
     )
 
-    st.markdown("---")
-    
-    # Resumen Rápido en Sidebar
+    # Resumen Operativo en Vivo en Sidebar
     df_sidebar = core.init_excel_db()
     total_reg = len(df_sidebar)
     st.markdown(f"""
-        <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px; font-size: 0.8rem;">
-            <div style="font-weight: 700; color: #0B4F8A; margin-bottom: 4px;">ESTADO DEL SISTEMA</div>
-            <div>Activos Registrados: <b>{total_reg}</b></div>
-            <div>Persistencia: <b>Excel (.xlsx)</b></div>
-            <div>Sede: <b>Planta Principal</b></div>
+    <div style="background: #18181B; border: 1px solid #27272A; border-left: 4px solid #EC2024; border-radius: 6px; padding: 12px 14px; margin-top: 20px;">
+        <div style="font-family: 'Montserrat', sans-serif; font-size: 10px; color: #EC2024; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;">
+            Planta y Control Físico
         </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+            <span style="color: #94A3B8; font-size: 11.5px;">Activos Registrados:</span>
+            <b style="color: #FFFFFF; font-size: 13px; font-family: 'Montserrat', sans-serif;">{total_reg} equipos</b>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <span style="color: #94A3B8; font-size: 11.5px;">Persistencia:</span>
+            <b style="color: #FFFFFF; font-size: 12px;">Excel (.xlsx)</b>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <span style="color: #94A3B8; font-size: 11.5px;">Auditoría:</span>
+            <b style="color: #10B981; font-size: 12px;">SAT / LISR Art. 31</b>
+        </div>
+    </div>
     """, unsafe_allow_html=True)
+
+
+# -----------------------------------------------------------------------------
+# Encabezado Principal: Banner Oficial SIGRAMA
+# -----------------------------------------------------------------------------
+if banner_path.exists():
+    st.image(str(banner_path), use_container_width=True)
 
 
 # =============================================================================
@@ -81,10 +122,10 @@ with st.sidebar:
 # =============================================================================
 if menu == "📌 1. Inicio / Dashboard":
     st.markdown("""
-        <div style="margin-bottom: 1.2rem;">
-            <h1 style="color: #0B4F8A; margin: 0; font-size: 2rem;">Dashboard General de Planta</h1>
+        <div style="margin-bottom: 1.2rem; margin-top: 0.5rem;">
+            <h1 style="color: #111111; margin: 0; font-size: 1.9rem; font-family: 'Montserrat', sans-serif;">Dashboard General de Planta</h1>
             <p style="color: #64748B; margin: 0.2rem 0 0 0; font-size: 0.95rem;">
-                Supervisión ejecutiva de maquinaria, herramentales y flujo de trabajo (WIP) - SIGRAMA
+                Supervisión ejecutiva de maquinaria, herramentales y flujo de trabajo en proceso (WIP) - <b>SIGRAMA</b>
             </p>
         </div>
     """, unsafe_allow_html=True)
@@ -174,9 +215,9 @@ if menu == "📌 1. Inicio / Dashboard":
             count_area = len(sub_df)
             
             st.markdown(f"""
-                <div style="background: #E2E8F0; padding: 8px 12px; border-radius: 8px 8px 0 0; border-top: 3px solid #0B4F8A; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: 700; font-size: 0.9rem; color: #072A4A;">{area}</span>
-                    <span style="background: #0B4F8A; color: white; border-radius: 10px; padding: 2px 7px; font-size: 0.75rem; font-weight: bold;">{count_area}</span>
+                <div style="background: #E2E8F0; padding: 8px 12px; border-radius: 8px 8px 0 0; border-top: 3px solid #EC2024; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 700; font-size: 0.9rem; color: #111111; font-family: 'Montserrat', sans-serif;">{area}</span>
+                    <span style="background: #EC2024; color: white; border-radius: 10px; padding: 2px 7px; font-size: 0.75rem; font-weight: bold;">{count_area}</span>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -499,14 +540,14 @@ elif menu == "➕ 2. Registro de Activos":
         origen_label = "IMPORTADO (CON PEDIMENTO)" if es_importado else "NACIONAL"
 
         st.markdown(f"""
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px; margin-bottom: 12px; border-left: 4px solid #EC2024;">
                 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-                    <span style="font-weight: 800; color: #0B4F8A; font-size: 0.95rem;">{clave_proyectada}</span>
-                    <span style="background: {status_color}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: bold;">
+                    <span style="font-weight: 800; color: #EC2024; font-size: 0.95rem; font-family: 'Montserrat', sans-serif;">{clave_proyectada}</span>
+                    <span style="background: {status_color}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: bold; font-family: 'Montserrat', sans-serif;">
                         {estatus_operativo.upper()}
                     </span>
                 </div>
-                <div style="font-weight: 700; font-size: 1.05rem; color: #1E293B; line-height: 1.25; margin-bottom: 4px;">
+                <div style="font-weight: 700; font-size: 1.05rem; color: #111111; line-height: 1.25; margin-bottom: 4px; font-family: 'Montserrat', sans-serif;">
                     {nombre_display}
                 </div>
                 <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 10px;">
@@ -514,7 +555,7 @@ elif menu == "➕ 2. Registro de Activos":
                 </div>
                 <div style="border-top: 1px solid #E2E8F0; padding-top: 8px; font-size: 0.8rem; display: flex; justify-content: space-between;">
                     <span style="color: #64748B;">Área Asignada:</span>
-                    <span style="font-weight: 700; color: #072A4A;">{area_produccion}</span>
+                    <span style="font-weight: 700; color: #111111;">{area_produccion}</span>
                 </div>
                 <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-top: 4px;">
                     <span style="color: #64748B;">Custodio:</span>
@@ -522,7 +563,7 @@ elif menu == "➕ 2. Registro de Activos":
                 </div>
                 <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-top: 4px;">
                     <span style="color: #64748B;">Inversión Total:</span>
-                    <span style="font-weight: 800; color: #0B4F8A;">${inversion_calc:,.2f} MXN</span>
+                    <span style="font-weight: 800; color: #EC2024; font-family: 'Montserrat', sans-serif;">${inversion_calc:,.2f} MXN</span>
                 </div>
                 <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-top: 4px;">
                     <span style="color: #64748B;">Depreciación LISR:</span>
@@ -536,7 +577,7 @@ elif menu == "➕ 2. Registro de Activos":
         """, unsafe_allow_html=True)
 
         # 3. Código QR en Tiempo Real
-        st.markdown("<div style='font-size: 0.82rem; font-weight: 700; color: #0B4F8A; margin-bottom: 4px;'>CÓDIGO QR PROYECTADO:</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size: 0.82rem; font-weight: 700; color: #111111; font-family: \"Montserrat\", sans-serif; margin-bottom: 4px;'>CÓDIGO QR PROYECTADO:</div>", unsafe_allow_html=True)
         try:
             extra_qr = {
                 "Nombre_Equipo": nombre_display,
@@ -631,9 +672,9 @@ elif menu == "🔍 3. Consulta y Ficha Técnica":
 
             # Despliegue de Ficha Técnica Ejecutiva (2 Columnas)
             st.markdown(f"""
-                <div style="background: linear-gradient(135deg, #0B4F8A 0%, #072A4A 100%); color: white; padding: 12px 20px; border-radius: 8px; margin: 15px 0;">
-                    <div style="font-size: 1.3rem; font-weight: 800;">{activo_row.get('Nombre_Equipo')}</div>
-                    <div style="font-size: 0.85rem; color: #93C5FD;">ID: {activo_row.get('ID_Activo')} | Categoría: {activo_row.get('Categoria')} ({activo_row.get('Subcategoria')})</div>
+                <div style="background: linear-gradient(135deg, #111111 0%, #1E293B 100%); color: white; padding: 14px 20px; border-radius: 8px; margin: 15px 0; border-left: 5px solid #EC2024;">
+                    <div style="font-size: 1.3rem; font-weight: 800; font-family: 'Montserrat', sans-serif;">{activo_row.get('Nombre_Equipo')}</div>
+                    <div style="font-size: 0.85rem; color: #CBD5E1;">ID: <b style="color: #EC2024;">{activo_row.get('ID_Activo')}</b> | Categoría: {activo_row.get('Categoria')} ({activo_row.get('Subcategoria')})</div>
                 </div>
             """, unsafe_allow_html=True)
 

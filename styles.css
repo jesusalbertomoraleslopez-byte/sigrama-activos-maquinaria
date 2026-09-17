@@ -1,105 +1,211 @@
 /* 
   styles.css
-  Identidad Visual Corporativa SIGRAMA - Industria 4.0 & ERP/MES
+  Manual de Identidad Corporativa Oficial SIGRAMA (PANTONE 485 C & Black 7 C)
+  Tipografía Oficial: Montserrat (Titulares) & Questrial (Cuerpo y Formularios)
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Questrial&display=swap');
+
 :root {
-    --primary-blue: #0B4F8A;
-    --primary-hover: #073863;
-    --accent-blue: #0072CE;
-    --navy-dark: #072A4A;
-    --bg-light: #F4F6F9;
+    --brand-red: #EC2024;
+    --brand-red-hover: #C01216;
+    --brand-black: #111111;
+    --sidebar-bg: #111111;
+    --sidebar-card: #18181B;
+    --sidebar-border: #27272A;
+    --bg-light: #F8FAFC;
     --card-bg: #FFFFFF;
-    --text-main: #1E293B;
+    --text-main: #0F172A;
     --text-muted: #64748B;
     --border-color: #E2E8F0;
+    --input-border: #D2D3D5;
     --status-operativo: #10B981;
     --status-mantenimiento: #F59E0B;
-    --status-critico: #EF4444;
+    --status-critico: #EC2024;
 }
 
-/* Fondo general de la aplicación */
-.stApp {
-    background-color: var(--bg-light);
+/* Fuentes globales según manual corporativo */
+html, body, [class*="css"], .stApp {
+    font-family: 'Questrial', sans-serif !important;
+    background-color: var(--bg-light) !important;
     color: var(--text-main);
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
 
-/* Barra Lateral (Sidebar) */
-section[data-testid="stSidebar"] {
-    background-color: #FFFFFF;
-    border-right: 1px solid var(--border-color);
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03);
+h1, h2, h3, h4, h5, h6, .main-title {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    color: var(--brand-black) !important;
+}
+
+/* Barra lateral corporativa en Negro profundo #111111 (PANTONE Black 7 C) */
+[data-testid="stSidebar"] {
+    background-color: var(--sidebar-bg) !important;
+    border-right: 1px solid #1E293B !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-testid="stSidebar"] p, 
+[data-testid="stSidebar"] span, 
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] div[data-testid="stMarkdownContainer"] {
+    color: #FFFFFF !important;
+    font-family: 'Questrial', sans-serif !important;
+}
+
+/* Radio de navegación en sidebar estilizado con Rojo Pantone 485 C */
+[data-testid="stSidebar"] div[role="radiogroup"] {
+    background-color: var(--sidebar-card) !important;
+    border: 1px solid var(--sidebar-border) !important;
+    border-radius: 8px !important;
+    padding: 6px !important;
+    gap: 4px !important;
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label {
+    color: #E2E8F0 !important;
+    padding: 9px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label,
+[data-testid="stSidebar"] div[role="radiogroup"] label p,
+[data-testid="stSidebar"] div[role="radiogroup"] label span,
+[data-testid="stSidebar"] div[role="radiogroup"] label div {
+    font-size: 15px !important;
+    font-family: 'Questrial', sans-serif !important;
+    line-height: 1.35 !important;
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label:hover,
+[data-testid="stSidebar"] div[role="radiogroup"] label:hover p,
+[data-testid="stSidebar"] div[role="radiogroup"] label:hover span {
+    color: #FFFFFF !important;
+    background-color: rgba(236, 32, 36, 0.18) !important;
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label[data-checked="true"],
+[data-testid="stSidebar"] div[role="radiogroup"] label[data-checked="true"] p,
+[data-testid="stSidebar"] div[role="radiogroup"] label[data-checked="true"] span {
+    background-color: var(--brand-red) !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
 }
 
 /* Header del Sidebar Corporativo */
-.sidebar-brand-box {
-    padding: 1.2rem 1rem;
-    background: linear-gradient(135deg, #072A4A 0%, #0B4F8A 100%);
-    border-radius: 12px;
-    color: white;
+.sidebar-badge-box {
+    background: rgba(236, 32, 36, 0.12);
+    border: 1px solid rgba(236, 32, 36, 0.35);
+    border-radius: 6px;
+    padding: 7px 10px;
+    margin: 10px 0 12px 0;
     text-align: center;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 12px rgba(11, 79, 138, 0.25);
 }
 
-.sidebar-brand-box h2 {
-    color: #FFFFFF !important;
-    font-size: 1.25rem !important;
-    font-weight: 800 !important;
+.sidebar-badge-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--brand-red);
     letter-spacing: 1px;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.sidebar-brand-box p {
-    color: #93C5FD !important;
-    font-size: 0.75rem !important;
-    margin: 4px 0 0 0 !important;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* Tarjetas de Métricas / KPIs */
+.sidebar-badge-subtitle {
+    color: #CBD5E1;
+    font-size: 10.5px;
+    margin-top: 2px;
+}
+
+/* Botones Oficiales - Rojo Corporativo PANTONE 485 C (#EC2024) */
+button[kind="primary"],
+div.stButton > button,
+div.stDownloadButton > button,
+div.stFormSubmitButton > button {
+    background-color: var(--brand-red) !important;
+    color: #FFFFFF !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--brand-red) !important;
+    padding: 9px 20px !important;
+    box-shadow: 0 3px 8px rgba(236, 32, 36, 0.25) !important;
+    transition: all 0.25s ease !important;
+    font-size: 13px !important;
+}
+
+button[kind="primary"]:hover,
+div.stButton > button:hover,
+div.stDownloadButton > button:hover,
+div.stFormSubmitButton > button:hover {
+    background-color: var(--brand-red-hover) !important;
+    border-color: var(--brand-red-hover) !important;
+    box-shadow: 0 5px 14px rgba(236, 32, 36, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Botones Secundarios */
+button[kind="secondary"] {
+    background-color: #FFFFFF !important;
+    color: var(--brand-black) !important;
+    border: 1px solid #CBD5E1 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+button[kind="secondary"]:hover {
+    border-color: var(--brand-red) !important;
+    color: var(--brand-red) !important;
+    background-color: #FFF5F5 !important;
+}
+
+/* Tarjetas de Métricas / KPIs Oficiales SIGRAMA */
 .kpi-card {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    padding: 1.25rem 1rem;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 1.1rem 1rem;
     border: 1px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    text-align: center;
+    border-left: 5px solid var(--brand-red);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    text-align: left;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .kpi-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(11, 79, 138, 0.08);
-    border-color: #CBD5E1;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .kpi-card .kpi-title {
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .kpi-card .kpi-value {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--primary-blue);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--brand-black);
     line-height: 1.1;
 }
 
 .kpi-card .kpi-subtitle {
     font-size: 0.75rem;
     color: #94A3B8;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
-/* Módulo Kanban Estilo Odoo */
+/* Módulo Kanban Estilo Odoo con Estilo Industrial SIGRAMA */
 .kanban-container {
     display: flex;
     gap: 1rem;
@@ -109,65 +215,49 @@ section[data-testid="stSidebar"] {
 }
 
 .kanban-column {
-    background-color: #EEF2F6;
-    border-radius: 12px;
+    background-color: #F1F5F9;
+    border-radius: 8px;
     min-width: 250px;
     max-width: 280px;
     flex: 1;
     padding: 0.85rem;
     border: 1px solid #E2E8F0;
+    border-top: 3px solid var(--brand-red);
     display: flex;
     flex-direction: column;
 }
 
-.kanban-column-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--navy-dark);
-    margin-bottom: 0.85rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--primary-blue);
-}
-
-.kanban-badge {
-    background-color: var(--primary-blue);
-    color: white;
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 700;
-}
-
 .kanban-card {
     background-color: #FFFFFF;
-    border-radius: 10px;
-    padding: 0.9rem;
+    border-radius: 6px;
+    padding: 0.85rem;
     margin-bottom: 0.75rem;
-    border-left: 4px solid var(--primary-blue);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-left: 3px solid var(--brand-red);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #E2E8F0;
+    border-left: 3px solid var(--brand-red);
     transition: all 0.2s ease;
 }
 
 .kanban-card:hover {
-    box-shadow: 0 5px 12px rgba(11, 79, 138, 0.12);
+    box-shadow: 0 4px 10px rgba(236, 32, 36, 0.12);
     transform: translateY(-2px);
 }
 
 .kanban-card-id {
+    font-family: 'Montserrat', sans-serif;
     font-weight: 800;
     font-size: 0.8rem;
-    color: var(--primary-blue);
+    color: var(--brand-red);
 }
 
 .kanban-card-title {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #1E293B;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--brand-black);
     margin: 4px 0 6px 0;
-    line-height: 1.2;
+    line-height: 1.25;
 }
 
 .kanban-card-meta {
@@ -176,7 +266,7 @@ section[data-testid="stSidebar"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 /* Badges de Estado */
@@ -185,6 +275,7 @@ section[data-testid="stSidebar"] {
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
     display: inline-block;
 }
 
@@ -203,74 +294,60 @@ section[data-testid="stSidebar"] {
     color: #9B1C1C;
 }
 
-/* Ficha Técnica Ejecutiva */
-.ficha-box {
-    background-color: #FFFFFF;
-    border-radius: 12px;
+/* Inputs, Selectboxes y Formularios */
+div[data-baseweb="input"], div[data-baseweb="select"], textarea {
+    border-color: var(--input-border) !important;
+    border-radius: 6px !important;
+}
+
+div[data-baseweb="input"]:focus-within, div[data-baseweb="select"]:focus-within {
+    border-color: var(--brand-red) !important;
+    box-shadow: 0 0 0 1px var(--brand-red) !important;
+}
+
+/* Contenedor Formulario Continuo */
+.form-block-card {
+    background: #FFFFFF;
     border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
-.section-badge {
-    background-color: #EFF6FF;
-    color: var(--primary-blue);
-    border-left: 4px solid var(--primary-blue);
-    padding: 0.4rem 0.8rem;
-    font-weight: 700;
-    font-size: 0.85rem;
+.form-block-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: var(--brand-black);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 0.8rem;
-    border-radius: 0 6px 6px 0;
-}
-
-/* Botones Principales */
-div.stButton > button:first-child {
-    background: linear-gradient(135deg, #0B4F8A 0%, #073863 100%) !important;
-    color: #FFFFFF !important;
-    font-weight: 600 !important;
-    border-radius: 8px !important;
-    border: none !important;
-    padding: 0.5rem 1.2rem !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 2px 6px rgba(11, 79, 138, 0.2) !important;
-}
-
-div.stButton > button:first-child:hover {
-    background: linear-gradient(135deg, #0072CE 0%, #0B4F8A 100%) !important;
-    box-shadow: 0 4px 10px rgba(11, 79, 138, 0.3) !important;
-    transform: translateY(-1px);
-}
-
-/* Tabs personalizadas */
-button[data-baseweb="tab"] {
-    font-weight: 600 !important;
-    color: #475569 !important;
-    border-radius: 6px 6px 0 0 !important;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] {
-    color: var(--primary-blue) !important;
-    border-bottom: 3px solid var(--primary-blue) !important;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #F1F5F9;
 }
 
 /* Panel de Vista Preliminar en Tiempo Real */
 .live-preview-container {
     background-color: #FFFFFF;
-    border: 1px solid #CBD5E1;
-    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     padding: 1.25rem;
-    box-shadow: 0 10px 25px rgba(11, 79, 138, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid var(--brand-red);
     position: sticky;
-    top: 1.5rem;
+    top: 1rem;
 }
 
 .live-preview-header {
-    background: linear-gradient(135deg, #072A4A 0%, #0B4F8A 100%);
+    background-color: var(--brand-black);
     color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     letter-spacing: 0.5px;
     margin-bottom: 12px;
     display: flex;
@@ -281,55 +358,55 @@ button[data-baseweb="tab"][aria-selected="true"] {
 .live-preview-pulse {
     width: 9px;
     height: 9px;
-    background-color: #10B981;
+    background-color: var(--brand-red);
     border-radius: 50%;
     display: inline-block;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 0 3px rgba(236, 32, 36, 0.3);
 }
 
-.live-photo-container {
-    border-radius: 10px;
-    overflow: hidden;
-    border: 2px solid #E2E8F0;
-    background-color: #0A192F;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.live-tag-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px 0;
-    font-size: 0.82rem;
-}
-
-.live-qr-badge {
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    margin-top: 12px;
-}
-
-.form-block-card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-}
-
-.form-block-title {
+/* Encabezados de Sección */
+.section-badge {
+    background-color: #FFF5F5;
+    color: var(--brand-red);
+    border-left: 4px solid var(--brand-red);
+    padding: 0.4rem 0.8rem;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    color: #0B4F8A;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #EFF6FF;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Header Banner Oficial SIGRAMA */
+.sigrama-banner-wrap {
+    width: 100%;
+    margin-bottom: 1.2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.sigrama-banner-wrap img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+/* Ajustes de espacio de cabecera Streamlit */
+header, [data-testid="stHeader"], header[data-testid="stHeader"] {
+    display: none !important;
+    height: 0px !important;
+    min-height: 0px !important;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.main .block-container,
+[data-testid="stMainBlockContainer"],
+div[data-testid="block-container"],
+.block-container {
+    padding-top: 0.5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-bottom: 2rem !important;
 }

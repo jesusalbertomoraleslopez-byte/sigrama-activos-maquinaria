@@ -345,33 +345,33 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
     )
 
     styles = getSampleStyleSheet()
-    primary_color = colors.HexColor("#0B4F8A")
-    secondary_color = colors.HexColor("#1A365D")
-    bg_light = colors.HexColor("#F4F6F9")
+    primary_color = colors.HexColor("#EC2024")     # PANTONE 485 C
+    secondary_color = colors.HexColor("#111111")   # PANTONE Black 7 C
+    bg_light = colors.HexColor("#F8FAFC")
     dark_gray = colors.HexColor("#2D3748")
 
     title_style = ParagraphStyle(
         'DocTitle',
         parent=styles['Heading1'],
         fontName='Helvetica-Bold',
-        fontSize=18,
-        leading=22,
-        textColor=primary_color
+        fontSize=15,
+        leading=18,
+        textColor=secondary_color
     )
     subtitle_style = ParagraphStyle(
         'DocSubTitle',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=10,
-        leading=14,
+        fontSize=9,
+        leading=13,
         textColor=colors.HexColor("#4A5568")
     )
     section_heading = ParagraphStyle(
         'SectionHeading',
         parent=styles['Heading2'],
         fontName='Helvetica-Bold',
-        fontSize=11,
-        leading=15,
+        fontSize=10.5,
+        leading=14,
         textColor=primary_color
     )
     cell_bold = ParagraphStyle(
@@ -393,36 +393,51 @@ def generate_asset_pdf(asset: Dict[str, Any]) -> BytesIO:
 
     story = []
 
-    # Encabezado Corporativo
+    # Encabezado Corporativo con Logotipo Oficial
+    logo_file = "logo_sigrama.png"
+    if os.path.exists(logo_file):
+        try:
+            rl_logo = RLImage(logo_file, width=135, height=38)
+            header_cell_left = [
+                rl_logo,
+                Spacer(1, 4),
+                Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b><br/><font size=8 color='#64748B'>División de Manufactura 4.0 & Control de Activos</font>", title_style)
+            ]
+        except Exception:
+            header_cell_left = Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b><br/>División de Manufactura e Industria 4.0", title_style)
+    else:
+        header_cell_left = Paragraph("<b>INDUSTRIA SIGRAMA S.A. DE C.V.</b><br/>División de Manufactura e Industria 4.0", title_style)
+
     header_data = [
         [
-            Paragraph("<b>SIGRAMA S.A. DE C.V.</b><br/>División de Manufactura e Industria 4.0", title_style),
-            Paragraph(f"<b>CONTROL DE ACTIVOS FIJOS</b><br/>Fecha emisión: {datetime.now().strftime('%d/%m/%Y')}<br/><b>ID: {asset.get('ID_Activo', 'N/A')}</b>", subtitle_style)
+            header_cell_left,
+            Paragraph(f"<b>FICHA TÉCNICA OFICIAL</b><br/>Emisión: {datetime.now().strftime('%d/%m/%Y')}<br/>Clave: <b><font color='#EC2024'>{asset.get('ID_Activo', 'N/A')}</font></b>", subtitle_style)
         ]
     ]
-    header_table = Table(header_data, colWidths=[360, 180])
+    header_table = Table(header_data, colWidths=[350, 190])
     header_table.setStyle(TableStyle([
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
         ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
     ]))
     story.append(header_table)
-    story.append(Spacer(1, 8))
-    story.append(HRFlowable(width="100%", thickness=2, color=primary_color, spaceBefore=4, spaceAfter=12))
+    story.append(Spacer(1, 4))
+    story.append(HRFlowable(width="100%", thickness=2.5, color=primary_color, spaceBefore=4, spaceAfter=10))
 
     # Banner del Activo
     nombre_eq = asset.get('Nombre_Equipo', 'Sin Nombre')
     estatus_eq = asset.get('Estatus_Operativo', 'Operativo')
     banner_text = f"<b>{nombre_eq}</b> | Categoría: {asset.get('Categoria', '')} - {asset.get('Subcategoria', '')} | Estatus: <b>{estatus_eq}</b>"
-    banner_p = Paragraph(banner_text, ParagraphStyle('Banner', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=10, textColor=colors.white))
+    banner_p = Paragraph(banner_text, ParagraphStyle('Banner', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=9.5, textColor=colors.white))
     banner_table = Table([[banner_p]], colWidths=[540])
     banner_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), primary_color),
+        ('BACKGROUND', (0, 0), (-1, -1), secondary_color),
         ('TOPPADDING', (0, 0), (-1, -1), 6),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
         ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('LINEBELOW', (0, 0), (-1, -1), 2, primary_color),
     ]))
     story.append(banner_table)
-    story.append(Spacer(1, 12))
+    story.append(Spacer(1, 10))
 
     # Columna Izquierda: Datos Técnicos, Fiscales, Financieros
     tech_data = [
