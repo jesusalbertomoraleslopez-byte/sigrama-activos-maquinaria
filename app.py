@@ -208,197 +208,355 @@ if menu == "📌 1. Inicio / Dashboard":
 
 
 # =============================================================================
-# ➕ 2. REGISTRO DE ACTIVOS (FORMULARIO INTERACTIVO SECUENCIAL)
+# ➕ 2. REGISTRO DE ACTIVOS (FORMULARIO CONTINUO CON VISTA PRELIMINAR EN VIVO)
 # =============================================================================
 elif menu == "➕ 2. Registro de Activos":
     st.markdown("""
         <div style="margin-bottom: 1.2rem;">
-            <h1 style="color: #0B4F8A; margin: 0; font-size: 2rem;">Alta y Registro Secuencial de Activos</h1>
+            <h1 style="color: #0B4F8A; margin: 0; font-size: 2rem;">Alta y Registro de Activos en Planta</h1>
             <p style="color: #64748B; margin: 0.2rem 0 0 0; font-size: 0.95rem;">
-                Complete los 4 pasos para registrar un activo. El sistema generará su ID único, código QR y Ficha Técnica.
+                Capture la información en una sola hoja continua. Visualice en la parte superior la fotografía del equipo y a la derecha la vista preliminar con su código QR en tiempo real.
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # 4 Pestañas Lógicas Consecutivas
-    tab_a, tab_b, tab_c, tab_d = st.tabs([
-        "Paso A: Identificación Física",
-        "Paso B: Fiscal y SAT",
-        "Paso C: Financiero e Inversión",
-        "Paso D: Asignación y Evidencia"
-    ])
+    df_current = core.init_excel_db()
 
-    with st.form("form_registro_activo", clear_on_submit=False):
-        # ---------------- PASO A ----------------
-        with tab_a:
-            st.markdown("<div class='section-badge'>PASO A: DATOS DE IDENTIFICACIÓN FÍSICA Y MAQUINARIA</div>", unsafe_allow_html=True)
-            col_a1, col_a2 = st.columns(2)
-            with col_a1:
-                nombre_equipo = st.text_input("Nombre del Equipo / Máquina *", placeholder="Ej. Centro de Corte Láser Fibra 6kW")
-                marca = st.text_input("Marca *", placeholder="Ej. Bystronic, Trumpf, Haas")
-                modelo = st.text_input("Modelo *", placeholder="Ej. ByStar Fiber 3015")
-            with col_a2:
-                numero_serie = st.text_input("Número de Serie *", placeholder="Ej. BY-60291-MX")
-                categoria = st.selectbox("Categoría Principal *", list(core.CATEGORIAS_DICT.keys()))
-                subcategorias_disp = core.CATEGORIAS_DICT.get(categoria, [])
-                subcategoria = st.selectbox("Subcategoría Dinámica *", subcategorias_disp)
+    # Layout de 2 Columnas: Izquierda (Formulario continuo con scroll) | Derecha (Vista Preliminar Fija)
+    col_form, col_preview = st.columns([1.65, 1.15], gap="large")
 
-        # ---------------- PASO B ----------------
-        with tab_b:
-            st.markdown("<div class='section-badge'>PASO B: CUMPLIMIENTO FISCAL Y LEGAL (AUDITORÍAS SAT MÉXICO)</div>", unsafe_allow_html=True)
-            col_b1, col_b2 = st.columns(2)
-            with col_b1:
-                uuid_cfdi = st.text_input(
-                    "UUID CFDI (Folio Fiscal de 36 caracteres) *",
-                    placeholder="Ej. 4A1E8D23-67BC-44F1-92EA-1A8B3567D001",
-                    help="Código alfanumérico fiscal de la factura electrónica mexicana emitido por el SAT."
-                )
-                rfc_proveedor = st.text_input(
-                    "RFC del Proveedor *",
-                    placeholder="Ej. BYM980315LK2",
-                    max_chars=13
-                )
-            with col_b2:
-                uso_cfdi = st.selectbox(
-                    "Uso de CFDI (Catálogo SAT) *",
-                    [
-                        "I02 Maquinaria y equipo",
-                        "I05 Dados, troqueles, moldes, matrices y herramental",
-                        "I04 Equipo de cómputo y accesorios",
-                        "I08 Otra maquinaria y equipo",
-                        "G03 Gastos en general"
-                    ]
-                )
-                es_importado = st.checkbox("¿Es equipo de procedencia extranjera / importado?", value=False)
-                numero_pedimento = st.text_input(
-                    "Número de Pedimento Aduanal",
-                    placeholder="Obligatorio para equipo importado (ej. 23 16 3840 7001923)",
-                    disabled=not es_importado
-                )
+    # ==================== COLUMNA IZQUIERDA: FORMULARIO CONTINUO ====================
+    with col_form:
+        # --- PARTE SUPERIOR: CARGA DE LA IMAGEN DEL EQUIPO ---
+        st.markdown("""
+            <div class="form-block-card" style="border-left: 5px solid #0B4F8A;">
+                <div class="form-block-title">
+                    📸 1. EVIDENCIA FOTOGRÁFICA DEL EQUIPO (REFERENCIA VISUAL)
+                </div>
+                <p style="font-size: 0.82rem; color: #64748B; margin-top: -8px; margin-bottom: 10px;">
+                    Cargue la fotografía del activo para no perderla de vista durante el llenado de datos técnicos y fiscales.
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
 
-        # ---------------- PASO C ----------------
-        with tab_c:
-            st.markdown("<div class='section-badge'>PASO C: INFORMACIÓN FINANCIERA E INVERSIÓN (ART. 31-38 LISR)</div>", unsafe_allow_html=True)
-            col_c1, col_c2 = st.columns(2)
-            with col_c1:
-                moi_neto = st.number_input(
-                    "MOI Neto (Monto Original de Inversión sin IVA) [MXN] *",
-                    min_value=0.0,
-                    value=100000.0,
-                    step=10000.0,
-                    format="%.2f"
-                )
-                gastos_inherentes = st.number_input(
-                    "Gastos Inherentes / Instalación (fletes, seguros, cimentación) [MXN]",
-                    min_value=0.0,
-                    value=0.0,
-                    step=5000.0,
-                    format="%.2f"
-                )
-                inversion_calc = moi_neto + gastos_inherentes
-                st.info(f"💰 Inversión Total Capitalizable: **${inversion_calc:,.2f} MXN**")
+        foto_archivo = st.file_uploader(
+            "Seleccionar fotografía del activo (JPG, JPEG, PNG)",
+            type=["jpg", "jpeg", "png"],
+            key="foto_uploader_single",
+            help="Suba una fotografía clara del equipo, placa del fabricante o herramental."
+        )
 
-            with col_c2:
-                # Tasa sugerida según categoría
-                tasa_default = 35.0 if "Herramental" in categoria else (25.0 if "Equipo Móvil" in categoria else 10.0)
-                tasa_depreciacion = st.number_input(
-                    "Tasa de Depreciación Anual (%) [LISR] *",
-                    min_value=1.0,
-                    max_value=100.0,
-                    value=tasa_default,
-                    step=1.0,
-                    help="Ej. 10% para maquinaria en general, 35% troqueles/herramental, 25% equipo móvil."
-                )
-                fecha_adquisicion = st.date_input("Fecha de Adquisición *", value=date.today())
-                fecha_inicio_uso = st.date_input("Fecha de Inicio de Uso *", value=date.today())
+        if foto_archivo is not None:
+            col_img1, col_img2 = st.columns([1.2, 1])
+            with col_img1:
+                st.image(foto_archivo, caption=f"Fotografía cargada: {foto_archivo.name}", use_container_width=True)
+            with col_img2:
+                st.success("✅ Imagen cargada y lista para vincular al activo.")
+                st.info("💡 La imagen se encuentra visible en el panel de vista preliminar a la derecha.")
 
-        # ---------------- PASO D ----------------
-        with tab_d:
-            st.markdown("<div class='section-badge'>PASO D: ASIGNACIÓN Y EVIDENCIA VISUAL</div>", unsafe_allow_html=True)
-            col_d1, col_d2 = st.columns(2)
-            with col_d1:
-                area_produccion = st.selectbox("Área de Producción *", core.AREAS_PRODUCCION)
-                responsable = st.text_input("Responsable del Activo *", placeholder="Ej. Ing. Carlos Mendoza")
-                estatus_operativo = st.selectbox("Estatus Operativo Inicial *", core.ESTATUS_OPCIONES)
-            with col_d2:
-                foto_archivo = st.file_uploader(
-                    "Fotografía del Activo (JPG, JPEG, PNG)",
-                    type=["jpg", "jpeg", "png"],
-                    help="Suba una fotografía nítida del activo o placa del fabricante."
-                )
+        st.markdown("<div style='height: 0.8rem;'></div>", unsafe_allow_html=True)
 
-        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
-        submit_btn = st.form_submit_button("💾 Guardar y Registrar Activo en Inventario", use_container_width=True)
+        # --- SECCIÓN A: IDENTIFICACIÓN FÍSICA Y MAQUINARIA ---
+        st.markdown("""
+            <div class="form-block-card">
+                <div class="form-block-title">
+                    🏷️ 2. DATOS DE IDENTIFICACIÓN FÍSICA Y TÉCNICA
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
-    if submit_btn:
-        # Validaciones
-        errores = []
-        if not nombre_equipo.strip():
-            errores.append("El Nombre del Equipo es obligatorio.")
-        if not marca.strip() or not modelo.strip():
-            errores.append("La Marca y Modelo son obligatorios.")
-        if not numero_serie.strip():
-            errores.append("El Número de Serie es obligatorio.")
-        if not uuid_cfdi.strip() or len(uuid_cfdi.strip()) < 32:
-            errores.append("El UUID CFDI debe ser un folio fiscal válido (32-36 caracteres).")
-        if not rfc_proveedor.strip() or len(rfc_proveedor.strip()) < 12:
-            errores.append("El RFC del Proveedor debe tener entre 12 y 13 caracteres.")
-        if es_importado and not numero_pedimento.strip():
-            errores.append("Para equipos importados, el Número de Pedimento es obligatorio ante el SAT.")
-        if not responsable.strip():
-            errores.append("Debe especificar el Responsable del Activo.")
+        col_a1, col_a2 = st.columns(2)
+        with col_a1:
+            nombre_equipo = st.text_input(
+                "Nombre del Equipo / Máquina *",
+                placeholder="Ej. Centro de Corte Láser Fibra 6kW",
+                key="reg_nombre"
+            )
+            marca = st.text_input("Marca del Fabricante *", placeholder="Ej. Bystronic, Trumpf, Haas, Amada", key="reg_marca")
+            modelo = st.text_input("Modelo *", placeholder="Ej. ByStar Fiber 3015", key="reg_modelo")
 
-        if errores:
-            for err in errores:
-                st.error(f"⚠️ {err}")
+        with col_a2:
+            numero_serie = st.text_input("Número de Serie *", placeholder="Ej. BY-60291-MX", key="reg_serie")
+            categoria = st.selectbox(
+                "Categoría Principal *",
+                list(core.CATEGORIAS_DICT.keys()),
+                key="reg_categoria"
+            )
+            subcategorias_disp = core.CATEGORIAS_DICT.get(categoria, [])
+            subcategoria = st.selectbox(
+                "Subcategoría Dinámica *",
+                subcategorias_disp,
+                key="reg_subcategoria"
+            )
+
+        st.markdown("<div style='height: 0.8rem;'></div>", unsafe_allow_html=True)
+
+        # --- SECCIÓN B: CUMPLIMIENTO FISCAL Y LEGAL (SAT) ---
+        st.markdown("""
+            <div class="form-block-card">
+                <div class="form-block-title">
+                    ⚖️ 3. CUMPLIMIENTO FISCAL Y AUDITORÍAS (SAT MÉXICO)
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        col_b1, col_b2 = st.columns(2)
+        with col_b1:
+            uuid_cfdi = st.text_input(
+                "UUID CFDI (Folio Fiscal de 36 caracteres) *",
+                placeholder="Ej. 4A1E8D23-67BC-44F1-92EA-1A8B3567D001",
+                key="reg_uuid",
+                help="Folio fiscal alfanumérico emitido por el SAT en la factura digital mexicana."
+            )
+            rfc_proveedor = st.text_input(
+                "RFC del Proveedor *",
+                placeholder="Ej. BYM980315LK2",
+                max_chars=13,
+                key="reg_rfc"
+            )
+        with col_b2:
+            uso_cfdi = st.selectbox(
+                "Uso de CFDI (Catálogo Oficial SAT) *",
+                [
+                    "I02 Maquinaria y equipo",
+                    "I05 Dados, troqueles, moldes, matrices y herramental",
+                    "I04 Equipo de cómputo y accesorios",
+                    "I08 Otra maquinaria y equipo",
+                    "G03 Gastos en general"
+                ],
+                key="reg_uso_cfdi"
+            )
+            es_importado = st.checkbox(
+                "¿Es equipo de procedencia extranjera / importado?",
+                value=False,
+                key="reg_importado"
+            )
+            numero_pedimento = st.text_input(
+                "Número de Pedimento Aduanal",
+                placeholder="Obligatorio si es importado (ej. 23 16 3840 7001923)",
+                disabled=not es_importado,
+                key="reg_pedimento"
+            )
+
+        st.markdown("<div style='height: 0.8rem;'></div>", unsafe_allow_html=True)
+
+        # --- SECCIÓN C: INFORMACIÓN FINANCIERA E INVERSIÓN (LISR) ---
+        st.markdown("""
+            <div class="form-block-card">
+                <div class="form-block-title">
+                    💰 4. INFORMACIÓN FINANCIERA E INVERSIÓN (ART. 31-38 LISR)
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            moi_neto = st.number_input(
+                "MOI Neto (Monto Original de Inversión sin IVA) [MXN] *",
+                min_value=0.0,
+                value=150000.0,
+                step=10000.0,
+                format="%.2f",
+                key="reg_moi"
+            )
+            gastos_inherentes = st.number_input(
+                "Gastos Inherentes / Instalación (fletes, seguros, cimentación) [MXN]",
+                min_value=0.0,
+                value=12000.0,
+                step=5000.0,
+                format="%.2f",
+                key="reg_gastos"
+            )
+            inversion_calc = float(moi_neto) + float(gastos_inherentes)
+            st.info(f"💵 **Inversión Total Capitalizable:** ${inversion_calc:,.2f} MXN")
+
+        with col_c2:
+            tasa_default = 35.0 if "Herramental" in categoria else (25.0 if "Equipo Móvil" in categoria else 10.0)
+            tasa_depreciacion = st.number_input(
+                "Tasa de Depreciación Anual (%) [LISR] *",
+                min_value=1.0,
+                max_value=100.0,
+                value=tasa_default,
+                step=1.0,
+                key="reg_tasa",
+                help="Porcentaje de depreciación fiscal: 10% Maquinaria, 35% Troqueles/Herramentales, 25% Equipo de Transporte."
+            )
+            fecha_adquisicion = st.date_input("Fecha de Adquisición *", value=date.today(), key="reg_f_adq")
+            fecha_inicio_uso = st.date_input("Fecha de Inicio de Uso *", value=date.today(), key="reg_f_uso")
+
+        st.markdown("<div style='height: 0.8rem;'></div>", unsafe_allow_html=True)
+
+        # --- SECCIÓN D: ASIGNACIÓN Y CUSTODIA OPERATIVA ---
+        st.markdown("""
+            <div class="form-block-card">
+                <div class="form-block-title">
+                    📍 5. ASIGNACIÓN OPERATIVA Y CUSTODIA EN PLANTA
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            area_produccion = st.selectbox("Área de Producción *", core.AREAS_PRODUCCION, key="reg_area")
+            responsable = st.text_input("Responsable / Custodio del Activo *", placeholder="Ej. Ing. Carlos Mendoza", key="reg_resp")
+        with col_d2:
+            estatus_operativo = st.selectbox("Estatus Operativo Inicial *", core.ESTATUS_OPCIONES, key="reg_estatus")
+
+        st.markdown("<div style='height: 1.2rem;'></div>", unsafe_allow_html=True)
+
+        # --- BOTÓN DE GUARDADO ---
+        guardar_btn = st.button("💾 Guardar y Registrar Activo en Inventario", use_container_width=True)
+
+        if guardar_btn:
+            errores = []
+            if not nombre_equipo.strip():
+                errores.append("El Nombre del Equipo es obligatorio.")
+            if not marca.strip() or not modelo.strip():
+                errores.append("La Marca y Modelo son obligatorios.")
+            if not numero_serie.strip():
+                errores.append("El Número de Serie es obligatorio.")
+            if not uuid_cfdi.strip() or len(uuid_cfdi.strip()) < 32:
+                errores.append("El UUID CFDI debe ser un folio fiscal válido (32 a 36 caracteres).")
+            if not rfc_proveedor.strip() or len(rfc_proveedor.strip()) < 12:
+                errores.append("El RFC del Proveedor debe tener entre 12 y 13 caracteres.")
+            if es_importado and not numero_pedimento.strip():
+                errores.append("Para equipos importados, el Número de Pedimento es obligatorio ante el SAT.")
+            if not responsable.strip():
+                errores.append("Debe especificar el Responsable del Activo.")
+
+            if errores:
+                for err in errores:
+                    st.error(f"⚠️ {err}")
+            else:
+                with st.spinner("Registrando activo, guardando fotografía física y generando código QR..."):
+                    datos_activo = {
+                        "Nombre_Equipo": nombre_equipo.strip(),
+                        "Marca": marca.strip(),
+                        "Modelo": modelo.strip(),
+                        "Numero_Serie": numero_serie.strip(),
+                        "Categoria": categoria,
+                        "Subcategoria": subcategoria,
+                        "UUID_CFDI": uuid_cfdi.strip().upper(),
+                        "RFC_Proveedor": rfc_proveedor.strip().upper(),
+                        "Uso_CFDI": uso_cfdi,
+                        "Es_Importado": es_importado,
+                        "Numero_Pedimento": numero_pedimento.strip() if es_importado else "",
+                        "MOI_Neto": float(moi_neto),
+                        "Gastos_Inherentes": float(gastos_inherentes),
+                        "Tasa_Depreciacion_Anual": float(tasa_depreciacion),
+                        "Fecha_Adquisicion": str(fecha_adquisicion),
+                        "Fecha_Inicio_Uso": str(fecha_inicio_uso),
+                        "Area_Produccion": area_produccion,
+                        "Responsable": responsable.strip(),
+                        "Estatus_Operativo": estatus_operativo,
+                    }
+
+                    exito, nuevo_id, res = core.register_new_asset(datos_activo, foto_archivo)
+
+                    if exito:
+                        st.balloons()
+                        st.success(f"🎉 ¡Activo registrado exitosamente con clave: **{nuevo_id}**!")
+                        st.info(f"📁 Se almacenó en `inventario_activos.xlsx` con su foto física en `media/fotos_activos/` y código QR en `media/qrs/`.")
+                    else:
+                        st.error(f"Error al guardar: {nuevo_id}")
+
+
+    # ==================== COLUMNA DERECHA: VISTA PRELIMINAR EN TIEMPO REAL ====================
+    with col_preview:
+        # Calcular clave proyectada en vivo
+        clave_proyectada = core.generate_unique_id(df_current, categoria, subcategoria)
+
+        st.markdown(f"""
+            <div class="live-preview-container">
+                <div class="live-preview-header">
+                    <span>📋 VISTA PRELIMINAR EN VIVO</span>
+                    <span class="live-preview-pulse" title="Sincronizado en tiempo real"></span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        # 1. Foto en Tiempo Real
+        if foto_archivo is not None:
+            st.image(foto_archivo, caption="Fotografía del Equipo (Cargada)", use_container_width=True)
         else:
-            with st.spinner("Procesando registro, generando clave única y código QR..."):
-                datos_activo = {
-                    "Nombre_Equipo": nombre_equipo.strip(),
-                    "Marca": marca.strip(),
-                    "Modelo": modelo.strip(),
-                    "Numero_Serie": numero_serie.strip(),
-                    "Categoria": categoria,
-                    "Subcategoria": subcategoria,
-                    "UUID_CFDI": uuid_cfdi.strip().upper(),
-                    "RFC_Proveedor": rfc_proveedor.strip().upper(),
-                    "Uso_CFDI": uso_cfdi,
-                    "Es_Importado": es_importado,
-                    "Numero_Pedimento": numero_pedimento.strip() if es_importado else "",
-                    "MOI_Neto": float(moi_neto),
-                    "Gastos_Inherentes": float(gastos_inherentes),
-                    "Tasa_Depreciacion_Anual": float(tasa_depreciacion),
-                    "Fecha_Adquisicion": str(fecha_adquisicion),
-                    "Fecha_Inicio_Uso": str(fecha_inicio_uso),
-                    "Area_Produccion": area_produccion,
-                    "Responsable": responsable.strip(),
-                    "Estatus_Operativo": estatus_operativo,
-                }
+            st.markdown("""
+                <div style="background: #0F172A; border: 2px dashed #38BDF8; border-radius: 10px; padding: 35px 15px; text-align: center; color: #94A3B8; margin-bottom: 12px;">
+                    <div style="font-size: 2.2rem; margin-bottom: 6px;">📷</div>
+                    <div style="font-weight: 700; color: #F8FAFC; font-size: 0.9rem;">Sin Fotografía Adjunta</div>
+                    <div style="font-size: 0.75rem; color: #64748B;">Cargue una foto en la parte superior para verla aquí.</div>
+                </div>
+            """, unsafe_allow_html=True)
 
-                exito, nuevo_id, res = core.register_new_asset(datos_activo, foto_archivo)
+        # 2. Tarjeta Resumen con Datos Dinámicos
+        nombre_display = nombre_equipo.strip() if nombre_equipo.strip() else "Nombre del Equipo pendiente..."
+        marca_modelo = f"{marca.strip()} {modelo.strip()}".strip()
+        if not marca_modelo:
+            marca_modelo = "Marca / Modelo pendiente"
 
-                if exito:
-                    st.success(f"🎉 ¡Activo registrado con éxito! ID Asignado: **{nuevo_id}**")
-                    
-                    # Despliegue de confirmación inmediata
-                    col_res1, col_res2 = st.columns([1, 1])
-                    with col_res1:
-                        st.markdown(f"""
-                            <div class="ficha-box">
-                                <h4 style="color: #0B4F8A; margin-top: 0;">Detalles de Registro</h4>
-                                <p><b>ID Activo:</b> {nuevo_id}</p>
-                                <p><b>Equipo:</b> {nombre_equipo}</p>
-                                <p><b>Área:</b> {area_produccion}</p>
-                                <p><b>Inversión Total:</b> ${res.get('Inversion_Total'):,.2f} MXN</p>
-                                <p><b>Persistencia:</b> Guardado en <code>inventario_activos.xlsx</code></p>
-                            </div>
-                        """, unsafe_allow_html=True)
-                    with col_res2:
-                        qr_path = res.get("Ruta_QR", "")
-                        if qr_path and os.path.exists(qr_path):
-                            st.image(qr_path, caption=f"Código QR Generado: {nuevo_id}", width=200)
-                else:
-                    st.error(f"Error al guardar el activo: {nuevo_id}")
+        serie_display = numero_serie.strip() if numero_serie.strip() else "SN: Pendiente"
+        
+        status_color = "#10B981" if estatus_operativo == "Operativo" else ("#F59E0B" if estatus_operativo == "En Mantenimiento" else "#EF4444")
+        origen_label = "IMPORTADO (CON PEDIMENTO)" if es_importado else "NACIONAL"
+
+        st.markdown(f"""
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                    <span style="font-weight: 800; color: #0B4F8A; font-size: 0.95rem;">{clave_proyectada}</span>
+                    <span style="background: {status_color}; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: bold;">
+                        {estatus_operativo.upper()}
+                    </span>
+                </div>
+                <div style="font-weight: 700; font-size: 1.05rem; color: #1E293B; line-height: 1.25; margin-bottom: 4px;">
+                    {nombre_display}
+                </div>
+                <div style="font-size: 0.8rem; color: #64748B; margin-bottom: 10px;">
+                    {marca_modelo} • <code>{serie_display}</code>
+                </div>
+                <div style="border-top: 1px solid #E2E8F0; padding-top: 8px; font-size: 0.8rem; display: flex; justify-content: space-between;">
+                    <span style="color: #64748B;">Área Asignada:</span>
+                    <span style="font-weight: 700; color: #072A4A;">{area_produccion}</span>
+                </div>
+                <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-top: 4px;">
+                    <span style="color: #64748B;">Custodio:</span>
+                    <span style="font-weight: 600; color: #1E293B;">{responsable if responsable.strip() else 'No asignado'}</span>
+                </div>
+                <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-top: 4px;">
+                    <span style="color: #64748B;">Inversión Total:</span>
+                    <span style="font-weight: 800; color: #0B4F8A;">${inversion_calc:,.2f} MXN</span>
+                </div>
+                <div style="font-size: 0.8rem; display: flex; justify-content: space-between; margin-top: 4px;">
+                    <span style="color: #64748B;">Depreciación LISR:</span>
+                    <span style="font-weight: 600; color: #047857;">{tasa_depreciacion}% anual</span>
+                </div>
+                <div style="font-size: 0.75rem; display: flex; justify-content: space-between; margin-top: 4px; color: #64748B;">
+                    <span>Origen Fiscal:</span>
+                    <span><b>{origen_label}</b></span>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        # 3. Código QR en Tiempo Real
+        st.markdown("<div style='font-size: 0.82rem; font-weight: 700; color: #0B4F8A; margin-bottom: 4px;'>CÓDIGO QR PROYECTADO:</div>", unsafe_allow_html=True)
+        try:
+            extra_qr = {
+                "Nombre_Equipo": nombre_display,
+                "Numero_Serie": serie_display,
+                "Area_Produccion": area_produccion
+            }
+            qr_buffer = core.generate_qr_image_bytes(clave_proyectada, extra_qr)
+            col_q1, col_q2 = st.columns([1, 1.2])
+            with col_q1:
+                st.image(qr_buffer, width=130)
+            with col_q2:
+                st.markdown(f"""
+                    <div style="font-size: 0.76rem; color: #64748B; margin-top: 10px; line-height: 1.3;">
+                        <b>Etiqueta SIGRAMA</b><br/>
+                        ID: <code>{clave_proyectada}</code><br/>
+                        Generada al vuelo para verificación en planta.
+                    </div>
+                """, unsafe_allow_html=True)
+        except Exception as e:
+            st.caption(f"QR en preparación: {e}")
 
 
 # =============================================================================

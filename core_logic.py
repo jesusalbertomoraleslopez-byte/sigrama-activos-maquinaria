@@ -232,6 +232,31 @@ def save_asset_image(uploaded_file, asset_id: str) -> Optional[str]:
         return None
 
 
+def generate_qr_image_bytes(asset_id: str, extra_data: Optional[Dict[str, Any]] = None) -> BytesIO:
+    """Genera el código QR en memoria (BytesIO) para vistas previas en tiempo real."""
+    qr_payload = f"SIGRAMA | ACTIVO INDUSTRIAL\nID: {asset_id}"
+    if extra_data:
+        nombre = extra_data.get("Nombre_Equipo", "")
+        serie = extra_data.get("Numero_Serie", "")
+        area = extra_data.get("Area_Produccion", "")
+        qr_payload += f"\nEquipo: {nombre}\nSerie: {serie}\nÁrea: {area}"
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=8,
+        border=3,
+    )
+    qr.add_data(qr_payload)
+    qr.make(fit=True)
+
+    img_qr = qr.make_image(fill_color="#0B4F8A", back_color="white")
+    buf = BytesIO()
+    img_qr.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
+
 def generate_qr_code(asset_id: str, extra_data: Optional[Dict[str, Any]] = None) -> str:
     """
     Genera el código QR con qrcode, lo guarda en `media/qrs/QR_{asset_id}.png`

@@ -252,3 +252,84 @@ button[data-baseweb="tab"][aria-selected="true"] {
     color: var(--primary-blue) !important;
     border-bottom: 3px solid var(--primary-blue) !important;
 }
+
+/* Panel de Vista Preliminar en Tiempo Real */
+.live-preview-container {
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 14px;
+    padding: 1.25rem;
+    box-shadow: 0 10px 25px rgba(11, 79, 138, 0.08);
+    position: sticky;
+    top: 1.5rem;
+}
+
+.live-preview-header {
+    background: linear-gradient(135deg, #072A4A 0%, #0B4F8A 100%);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.live-preview-pulse {
+    width: 9px;
+    height: 9px;
+    background-color: #10B981;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+
+.live-photo-container {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #E2E8F0;
+    background-color: #0A192F;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.live-tag-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    font-size: 0.82rem;
+}
+
+.live-qr-badge {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.form-block-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.form-block-title {
+    font-weight: 700;
+    color: #0B4F8A;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #EFF6FF;
+}
