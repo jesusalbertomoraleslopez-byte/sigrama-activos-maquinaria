@@ -1,0 +1,21 @@
+# Git & IDE
+.git
+.gitignore
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.class
+.venv/
+venv/
+ENV/
+.streamlit/secrets.toml
+
+# Scratch & temporary previews
+sample_pdf_preview.png
+preview_real_dobladora.png
+preview_batch_portada.png
+preview_with_checklist.png
+test_new_features.py
