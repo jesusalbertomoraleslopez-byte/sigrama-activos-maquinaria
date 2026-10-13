@@ -5,3 +5,4 @@ qrcode>=7.4.2
 pillow>=10.0.0
 reportlab>=4.0.0
 pypdf>=4.0.0
+google-cloud-storage>=2.14.0

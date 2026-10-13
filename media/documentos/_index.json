@@ -1,248 +1,1038 @@
 {
   "CTR-LAS-001": [
     {
-      "filename": "EQ_2_Archivo_de_Fotos_1_Photos-3-001 (10).zip",
-      "ext": ".zip",
-      "size_bytes": 45356656,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/CTR-LAS-001/EQ_2_Archivo_de_Fotos_1_Photos-3-001 (10).zip"
-    }
-  ],
-  "CTR-LAS-002": [],
-  "EQM-CMP-002": [
-    {
-      "filename": "EQ_4_Archivo_de_Fotos_1_Photos-3-001 (5).zip",
-      "ext": ".zip",
-      "size_bytes": 2002544,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/EQM-CMP-002/EQ_4_Archivo_de_Fotos_1_Photos-3-001 (5).zip"
+      "filename": "Certificado_Pre_Entrega_e_Inspeccion_Laser.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Certificado_Pre_Entrega_e_Inspeccion_Laser.pdf"
     },
     {
-      "filename": "EQ_4_Archivo_de_Fotos_2_Photos-3-001 (6).zip",
-      "ext": ".zip",
-      "size_bytes": 2901147,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/EQM-CMP-002/EQ_4_Archivo_de_Fotos_2_Photos-3-001 (6).zip"
-    }
-  ],
-  "EQM-CMP-001": [
-    {
-      "filename": "EQ_5_Archivo_de_Fotos_1_Photos-3-001 (4).zip",
-      "ext": ".zip",
-      "size_bytes": 1753364,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/EQM-CMP-001/EQ_5_Archivo_de_Fotos_1_Photos-3-001 (4).zip"
+      "filename": "Foto_Instalacion_CTR-LAS-001_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 94691,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Instalacion_CTR-LAS-001_01.jpg"
     },
     {
-      "filename": "EQ_5_Archivo_de_Fotos_2_Photos-3-001 (7).zip",
-      "ext": ".zip",
-      "size_bytes": 915061,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/EQM-CMP-001/EQ_5_Archivo_de_Fotos_2_Photos-3-001 (7).zip"
-    }
-  ],
-  "EQM-REG-001": [
+      "filename": "Foto_Instalacion_CTR-LAS-001_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 196843,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Instalacion_CTR-LAS-001_02.jpg"
+    },
     {
-      "filename": "EQ_8_Archivo_de_Fotos_1_Photos-3-001 (8).zip",
-      "ext": ".zip",
-      "size_bytes": 9780267,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/EQM-REG-001/EQ_8_Archivo_de_Fotos_1_Photos-3-001 (8).zip"
-    }
-  ],
-  "EQM-REG-002": [
+      "filename": "Foto_Planta_CTR-LAS-001_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 322445,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Planta_CTR-LAS-001_01.jpg"
+    },
     {
-      "filename": "EQ_9_Archivo_de_Fotos_1_Photos-3-001 (9).zip",
-      "ext": ".zip",
-      "size_bytes": 6987329,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/EQM-REG-002/EQ_9_Archivo_de_Fotos_1_Photos-3-001 (9).zip"
+      "filename": "Foto_Planta_CTR-LAS-001_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 339756,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Planta_CTR-LAS-001_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_CTR-LAS-001_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 339668,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Planta_CTR-LAS-001_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_CTR-LAS-001_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 146063,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Planta_CTR-LAS-001_04.jpg"
+    },
+    {
+      "filename": "Foto_Planta_CTR-LAS-001_05.jpg",
+      "ext": ".jpg",
+      "size_bytes": 383848,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Foto_Planta_CTR-LAS-001_05.jpg"
+    },
+    {
+      "filename": "Gama_Mantenimiento_Preventivo_Laser_NOVA3015.pdf",
+      "ext": ".pdf",
+      "size_bytes": 285354,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Gama_Mantenimiento_Preventivo_Laser_NOVA3015.pdf"
+    },
+    {
+      "filename": "Gama_Requerimientos_Arranque_Laser_NOVA3015.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 2815841,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Gama_Requerimientos_Arranque_Laser_NOVA3015.xlsx"
+    },
+    {
+      "filename": "Manual_Ficha_Tecnica_Laser_NOVA3015_3000W.pdf",
+      "ext": ".pdf",
+      "size_bytes": 1279275,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Manual_Ficha_Tecnica_Laser_NOVA3015_3000W.pdf"
+    },
+    {
+      "filename": "Manual_Operacion_Laser_Planta_SIGRAMA.docx",
+      "ext": ".docx",
+      "size_bytes": 2877843,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Manual_Operacion_Laser_Planta_SIGRAMA.docx"
+    },
+    {
+      "filename": "Manual_Parametros_Corte_Laser_1000-6000W.pdf",
+      "ext": ".pdf",
+      "size_bytes": 5978166,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Manual_Parametros_Corte_Laser_1000-6000W.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_CTR-LAS-001.jpg",
+      "ext": ".jpg",
+      "size_bytes": 70493,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Placa_Identificacion_CTR-LAS-001.jpg"
+    },
+    {
+      "filename": "Plano_Diagrama_Electrico_NOVA3K.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Plano_Diagrama_Electrico_NOVA3K.pdf"
+    },
+    {
+      "filename": "Plano_Layout_Instalacion_NOVA3015.pdf",
+      "ext": ".pdf",
+      "size_bytes": 236086,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-001/Plano_Layout_Instalacion_NOVA3015.pdf"
     }
   ],
-  "EQM-TRF-001": [],
-  "EQM-TRF-002": [],
+  "CTR-LAS-002": [
+    {
+      "filename": "Certificado_Pre_Entrega_e_Inspeccion_Laser.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Certificado_Pre_Entrega_e_Inspeccion_Laser.pdf"
+    },
+    {
+      "filename": "Gama_Mantenimiento_Preventivo_Laser_NOVA3015.pdf",
+      "ext": ".pdf",
+      "size_bytes": 285354,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Gama_Mantenimiento_Preventivo_Laser_NOVA3015.pdf"
+    },
+    {
+      "filename": "Gama_Requerimientos_Arranque_Laser_NOVA3015.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 2815841,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Gama_Requerimientos_Arranque_Laser_NOVA3015.xlsx"
+    },
+    {
+      "filename": "Manual_Ficha_Tecnica_Laser_NOVA3015_3000W.pdf",
+      "ext": ".pdf",
+      "size_bytes": 1279275,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Manual_Ficha_Tecnica_Laser_NOVA3015_3000W.pdf"
+    },
+    {
+      "filename": "Manual_Operacion_Laser_Planta_SIGRAMA.docx",
+      "ext": ".docx",
+      "size_bytes": 2877843,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Manual_Operacion_Laser_Planta_SIGRAMA.docx"
+    },
+    {
+      "filename": "Manual_Parametros_Corte_Laser_1000-6000W.pdf",
+      "ext": ".pdf",
+      "size_bytes": 5978166,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Manual_Parametros_Corte_Laser_1000-6000W.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_CTR-LAS-002.jpg",
+      "ext": ".jpg",
+      "size_bytes": 69722,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Placa_Identificacion_CTR-LAS-002.jpg"
+    },
+    {
+      "filename": "Plano_Diagrama_Electrico_NOVA3K.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Plano_Diagrama_Electrico_NOVA3K.pdf"
+    },
+    {
+      "filename": "Plano_Layout_Instalacion_NOVA3015.pdf",
+      "ext": ".pdf",
+      "size_bytes": 236086,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/CTR-LAS-002/Plano_Layout_Instalacion_NOVA3015.pdf"
+    }
+  ],
   "DBL-PRE-001": [
     {
-      "filename": "EQ_12_Archivo_de_Fotos_1_Photos-3-001 (2).zip",
-      "ext": ".zip",
-      "size_bytes": 24121992,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/DBL-PRE-001/EQ_12_Archivo_de_Fotos_1_Photos-3-001 (2).zip"
+      "filename": "Certificado_Especificacion_Tecnica_Bending_RFQ.pdf",
+      "ext": ".pdf",
+      "size_bytes": 301624,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Certificado_Especificacion_Tecnica_Bending_RFQ.pdf"
+    },
+    {
+      "filename": "Certificado_Pre_Entrega_Dobladora_200T.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Certificado_Pre_Entrega_Dobladora_200T.pdf"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-001_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 300145,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Foto_Planta_DBL-PRE-001_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-001_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 280757,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Foto_Planta_DBL-PRE-001_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-001_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 255888,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Foto_Planta_DBL-PRE-001_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-001_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 262814,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Foto_Planta_DBL-PRE-001_04.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-001_05.jpg",
+      "ext": ".jpg",
+      "size_bytes": 313809,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Foto_Planta_DBL-PRE-001_05.jpg"
+    },
+    {
+      "filename": "Gama_Calculo_Doblez_y_Parametros_Operacion.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 964623,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Gama_Calculo_Doblez_y_Parametros_Operacion.xlsx"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_Maquinaria_Doblez.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Gama_Consumos_Electricos_Maquinaria_Doblez.xlsx"
+    },
+    {
+      "filename": "Manual_Ficha_Tecnica_Dobladora_Flexmax_200T_3200.pdf",
+      "ext": ".pdf",
+      "size_bytes": 6554689,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Manual_Ficha_Tecnica_Dobladora_Flexmax_200T_3200.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_DBL-PRE-001.jpg",
+      "ext": ".jpg",
+      "size_bytes": 31716,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Placa_Identificacion_DBL-PRE-001.jpg"
+    },
+    {
+      "filename": "Plano_Catalogo_Dados_y_Matrices_Dobladora.pdf",
+      "ext": ".pdf",
+      "size_bytes": 701643,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Plano_Catalogo_Dados_y_Matrices_Dobladora.pdf"
+    },
+    {
+      "filename": "Plano_Herramental_Adicional_Doblez_SIGRAMA.pdf",
+      "ext": ".pdf",
+      "size_bytes": 237857,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-001/Plano_Herramental_Adicional_Doblez_SIGRAMA.pdf"
     }
   ],
   "DBL-PRE-002": [
     {
-      "filename": "EQ_13_Archivo_de_Fotos_1_Photos-3-001 (3).zip",
-      "ext": ".zip",
-      "size_bytes": 9317312,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/DBL-PRE-002/EQ_13_Archivo_de_Fotos_1_Photos-3-001 (3).zip"
+      "filename": "Certificado_Especificacion_Tecnica_Bending_RFQ.pdf",
+      "ext": ".pdf",
+      "size_bytes": 301624,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Certificado_Especificacion_Tecnica_Bending_RFQ.pdf"
+    },
+    {
+      "filename": "Certificado_Pre_Entrega_Dobladora_63T.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Certificado_Pre_Entrega_Dobladora_63T.pdf"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-002_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 256911,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Foto_Planta_DBL-PRE-002_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-002_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 268795,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Foto_Planta_DBL-PRE-002_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-002_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 265007,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Foto_Planta_DBL-PRE-002_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-002_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 240178,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Foto_Planta_DBL-PRE-002_04.jpg"
+    },
+    {
+      "filename": "Foto_Planta_DBL-PRE-002_05.jpg",
+      "ext": ".jpg",
+      "size_bytes": 297117,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Foto_Planta_DBL-PRE-002_05.jpg"
+    },
+    {
+      "filename": "Gama_Calculo_Doblez_y_Parametros_Operacion.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 964623,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Gama_Calculo_Doblez_y_Parametros_Operacion.xlsx"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_Maquinaria_Doblez.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Gama_Consumos_Electricos_Maquinaria_Doblez.xlsx"
+    },
+    {
+      "filename": "Manual_Ficha_Tecnica_Dobladora_Flexmax_63T_1600.pdf",
+      "ext": ".pdf",
+      "size_bytes": 4245919,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Manual_Ficha_Tecnica_Dobladora_Flexmax_63T_1600.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_DBL-PRE-002.jpg",
+      "ext": ".jpg",
+      "size_bytes": 97665,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Placa_Identificacion_DBL-PRE-002.jpg"
+    },
+    {
+      "filename": "Plano_Catalogo_Dados_y_Matrices_Dobladora.pdf",
+      "ext": ".pdf",
+      "size_bytes": 701643,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/DBL-PRE-002/Plano_Catalogo_Dados_y_Matrices_Dobladora.pdf"
     }
   ],
-  "EQM-REG-003": [],
-  "EQM-REG-004": [],
+  "EQM-CMP-001": [
+    {
+      "filename": "Certificado_Especificacion_Equipos_Perifericos.pdf",
+      "ext": ".pdf",
+      "size_bytes": 232995,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Certificado_Especificacion_Equipos_Perifericos.pdf"
+    },
+    {
+      "filename": "Certificado_Pre_Entrega_Compresor_Tornillo_1.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Certificado_Pre_Entrega_Compresor_Tornillo_1.pdf"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-001_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 314348,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Foto_Planta_EQM-CMP-001_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-001_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 281641,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Foto_Planta_EQM-CMP-001_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-001_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 374369,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Foto_Planta_EQM-CMP-001_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-001_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 368162,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Foto_Planta_EQM-CMP-001_04.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Mantenimiento_Planta.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Gama_Consumos_Electricos_y_Mantenimiento_Planta.xlsx"
+    },
+    {
+      "filename": "Manual_Requerimientos_Aire_Comprimido_y_Arranque.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276092,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Manual_Requerimientos_Aire_Comprimido_y_Arranque.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-CMP-001.jpg",
+      "ext": ".jpg",
+      "size_bytes": 34998,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Placa_Identificacion_EQM-CMP-001.jpg"
+    },
+    {
+      "filename": "Plano_Tablero_Servicios_Electricos_Compresores.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-001/Plano_Tablero_Servicios_Electricos_Compresores.xlsx"
+    }
+  ],
+  "EQM-CMP-002": [
+    {
+      "filename": "Certificado_Especificacion_Equipos_Perifericos.pdf",
+      "ext": ".pdf",
+      "size_bytes": 232995,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Certificado_Especificacion_Equipos_Perifericos.pdf"
+    },
+    {
+      "filename": "Certificado_Pre_Entrega_Compresor_Tornillo_2.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Certificado_Pre_Entrega_Compresor_Tornillo_2.pdf"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-002_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 323293,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Foto_Planta_EQM-CMP-002_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-002_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 312538,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Foto_Planta_EQM-CMP-002_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-002_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 316042,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Foto_Planta_EQM-CMP-002_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-002_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 288806,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Foto_Planta_EQM-CMP-002_04.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-CMP-002_05.jpg",
+      "ext": ".jpg",
+      "size_bytes": 305452,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Foto_Planta_EQM-CMP-002_05.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Mantenimiento_Planta.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Gama_Consumos_Electricos_y_Mantenimiento_Planta.xlsx"
+    },
+    {
+      "filename": "Manual_Requerimientos_Aire_Comprimido_y_Arranque.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276092,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Manual_Requerimientos_Aire_Comprimido_y_Arranque.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-CMP-002.jpg",
+      "ext": ".jpg",
+      "size_bytes": 47253,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Placa_Identificacion_EQM-CMP-002.jpg"
+    },
+    {
+      "filename": "Plano_Tablero_Servicios_Electricos_Compresores.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-CMP-002/Plano_Tablero_Servicios_Electricos_Compresores.xlsx"
+    }
+  ],
+  "EQM-REG-001": [
+    {
+      "filename": "Certificado_Pre_Entrega_Obra_Electrica.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Certificado_Pre_Entrega_Obra_Electrica.pdf"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-001_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 284352,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Foto_Planta_EQM-REG-001_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-001_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 267691,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Foto_Planta_EQM-REG-001_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-001_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 281339,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Foto_Planta_EQM-REG-001_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-001_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 248604,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Foto_Planta_EQM-REG-001_04.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-001_05.jpg",
+      "ext": ".jpg",
+      "size_bytes": 318183,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Foto_Planta_EQM-REG-001_05.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Cargas_Planta.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Gama_Consumos_Electricos_y_Cargas_Planta.xlsx"
+    },
+    {
+      "filename": "Gama_Tablero_Servicios_Obra_Electrica.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Gama_Tablero_Servicios_Obra_Electrica.xlsx"
+    },
+    {
+      "filename": "Manual_Diagrama_Electrico_Regulacion_60kVA.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Manual_Diagrama_Electrico_Regulacion_60kVA.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-REG-001.jpg",
+      "ext": ".jpg",
+      "size_bytes": 31282,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Placa_Identificacion_EQM-REG-001.jpg"
+    },
+    {
+      "filename": "Plano_CAD_Estructura_Transformador_y_Regulador.dwg",
+      "ext": ".dwg",
+      "size_bytes": 260016,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Plano_CAD_Estructura_Transformador_y_Regulador.dwg"
+    },
+    {
+      "filename": "Plano_Diseno_Estructura_Transformador_y_Regulador.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276537,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-001/Plano_Diseno_Estructura_Transformador_y_Regulador.pdf"
+    }
+  ],
+  "EQM-REG-002": [
+    {
+      "filename": "Certificado_Pre_Entrega_Obra_Electrica.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Certificado_Pre_Entrega_Obra_Electrica.pdf"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-002_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 328450,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Foto_Planta_EQM-REG-002_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-002_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 400628,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Foto_Planta_EQM-REG-002_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-002_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 382858,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Foto_Planta_EQM-REG-002_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-002_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 395708,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Foto_Planta_EQM-REG-002_04.jpg"
+    },
+    {
+      "filename": "Foto_Planta_EQM-REG-002_05.jpg",
+      "ext": ".jpg",
+      "size_bytes": 382817,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Foto_Planta_EQM-REG-002_05.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Cargas_Planta.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Gama_Consumos_Electricos_y_Cargas_Planta.xlsx"
+    },
+    {
+      "filename": "Gama_Tablero_Servicios_Obra_Electrica.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Gama_Tablero_Servicios_Obra_Electrica.xlsx"
+    },
+    {
+      "filename": "Manual_Diagrama_Electrico_Regulacion_60kVA.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Manual_Diagrama_Electrico_Regulacion_60kVA.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-REG-002.jpg",
+      "ext": ".jpg",
+      "size_bytes": 30038,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Placa_Identificacion_EQM-REG-002.jpg"
+    },
+    {
+      "filename": "Plano_CAD_Estructura_Transformador_y_Regulador.dwg",
+      "ext": ".dwg",
+      "size_bytes": 260016,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Plano_CAD_Estructura_Transformador_y_Regulador.dwg"
+    },
+    {
+      "filename": "Plano_Diseno_Estructura_Transformador_y_Regulador.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276537,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-002/Plano_Diseno_Estructura_Transformador_y_Regulador.pdf"
+    }
+  ],
+  "EQM-REG-003": [
+    {
+      "filename": "Certificado_Pre_Entrega_Obra_Electrica.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Certificado_Pre_Entrega_Obra_Electrica.pdf"
+    },
+    {
+      "filename": "Foto_Instalacion_EQM-REG-003_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 300066,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Foto_Instalacion_EQM-REG-003_01.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_Area_Doblez.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Gama_Consumos_Electricos_Area_Doblez.xlsx"
+    },
+    {
+      "filename": "Gama_Tablero_Servicios_Obra_Electrica.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Gama_Tablero_Servicios_Obra_Electrica.xlsx"
+    },
+    {
+      "filename": "Manual_Diagrama_Electrico_Regulador_30kVA_380V.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Manual_Diagrama_Electrico_Regulador_30kVA_380V.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-REG-003.jpg",
+      "ext": ".jpg",
+      "size_bytes": 31282,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Placa_Identificacion_EQM-REG-003.jpg"
+    },
+    {
+      "filename": "Plano_CAD_Estructura_Transformador_y_Regulador.dwg",
+      "ext": ".dwg",
+      "size_bytes": 260016,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Plano_CAD_Estructura_Transformador_y_Regulador.dwg"
+    },
+    {
+      "filename": "Plano_Diseno_Estructura_Transformador_y_Regulador.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276537,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-003/Plano_Diseno_Estructura_Transformador_y_Regulador.pdf"
+    }
+  ],
+  "EQM-REG-004": [
+    {
+      "filename": "Certificado_Pre_Entrega_Obra_Electrica.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Certificado_Pre_Entrega_Obra_Electrica.pdf"
+    },
+    {
+      "filename": "Foto_Instalacion_EQM-REG-004_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 300066,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Foto_Instalacion_EQM-REG-004_01.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_Area_Doblez.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Gama_Consumos_Electricos_Area_Doblez.xlsx"
+    },
+    {
+      "filename": "Gama_Tablero_Servicios_Obra_Electrica.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Gama_Tablero_Servicios_Obra_Electrica.xlsx"
+    },
+    {
+      "filename": "Manual_Diagrama_Electrico_Regulador_20kVA_380V.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Manual_Diagrama_Electrico_Regulador_20kVA_380V.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-REG-004.jpg",
+      "ext": ".jpg",
+      "size_bytes": 30038,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Placa_Identificacion_EQM-REG-004.jpg"
+    },
+    {
+      "filename": "Plano_CAD_Estructura_Transformador_y_Regulador.dwg",
+      "ext": ".dwg",
+      "size_bytes": 260016,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Plano_CAD_Estructura_Transformador_y_Regulador.dwg"
+    },
+    {
+      "filename": "Plano_Diseno_Estructura_Transformador_y_Regulador.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276537,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-REG-004/Plano_Diseno_Estructura_Transformador_y_Regulador.pdf"
+    }
+  ],
+  "EQM-TRF-001": [
+    {
+      "filename": "Certificado_Pre_Entrega_Obra_Electrica.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Certificado_Pre_Entrega_Obra_Electrica.pdf"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Cargas_Planta.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Gama_Consumos_Electricos_y_Cargas_Planta.xlsx"
+    },
+    {
+      "filename": "Gama_Tablero_Servicios_Obra_Electrica.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Gama_Tablero_Servicios_Obra_Electrica.xlsx"
+    },
+    {
+      "filename": "Manual_Diagrama_Electrico_Transformador_60kVA.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Manual_Diagrama_Electrico_Transformador_60kVA.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-TRF-001.jpg",
+      "ext": ".jpg",
+      "size_bytes": 30038,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Placa_Identificacion_EQM-TRF-001.jpg"
+    },
+    {
+      "filename": "Plano_CAD_Estructura_Transformador_y_Regulador.dwg",
+      "ext": ".dwg",
+      "size_bytes": 260016,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Plano_CAD_Estructura_Transformador_y_Regulador.dwg"
+    },
+    {
+      "filename": "Plano_Diseno_Estructura_Transformador_y_Regulador.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276537,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-001/Plano_Diseno_Estructura_Transformador_y_Regulador.pdf"
+    }
+  ],
+  "EQM-TRF-002": [
+    {
+      "filename": "Certificado_Pre_Entrega_Obra_Electrica.pdf",
+      "ext": ".pdf",
+      "size_bytes": 219679,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Certificado_Pre_Entrega_Obra_Electrica.pdf"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Cargas_Planta.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Gama_Consumos_Electricos_y_Cargas_Planta.xlsx"
+    },
+    {
+      "filename": "Gama_Tablero_Servicios_Obra_Electrica.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1147268,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Gama_Tablero_Servicios_Obra_Electrica.xlsx"
+    },
+    {
+      "filename": "Manual_Diagrama_Electrico_Transformador_75kVA.pdf",
+      "ext": ".pdf",
+      "size_bytes": 228471,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Manual_Diagrama_Electrico_Transformador_75kVA.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_EQM-TRF-002.jpg",
+      "ext": ".jpg",
+      "size_bytes": 33187,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Placa_Identificacion_EQM-TRF-002.jpg"
+    },
+    {
+      "filename": "Plano_CAD_Estructura_Transformador_y_Regulador.dwg",
+      "ext": ".dwg",
+      "size_bytes": 260016,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Plano_CAD_Estructura_Transformador_y_Regulador.dwg"
+    },
+    {
+      "filename": "Plano_Diseno_Estructura_Transformador_y_Regulador.pdf",
+      "ext": ".pdf",
+      "size_bytes": 276537,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/EQM-TRF-002/Plano_Diseno_Estructura_Transformador_y_Regulador.pdf"
+    }
+  ],
   "LIJ-AUT-001": [
     {
-      "filename": "EQ_16_Archivo_de_Fotos_1_IMG_20260223_095809.jpg",
-      "ext": ".jpg",
-      "size_bytes": 482920,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_1_IMG_20260223_095809.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_2_IMG_20260223_095811.jpg",
-      "ext": ".jpg",
-      "size_bytes": 531028,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_2_IMG_20260223_095811.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_3_IMG_20260223_101606.jpg",
-      "ext": ".jpg",
-      "size_bytes": 434567,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_3_IMG_20260223_101606.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_4_IMG_20260223_102654.jpg",
-      "ext": ".jpg",
-      "size_bytes": 418802,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_4_IMG_20260223_102654.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_5_IMG_20260223_102657.jpg",
-      "ext": ".jpg",
-      "size_bytes": 407596,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_5_IMG_20260223_102657.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_6_IMG_20260223_102707.jpg",
-      "ext": ".jpg",
-      "size_bytes": 528592,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_6_IMG_20260223_102707.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_7_IMG_20260223_102713.jpg",
-      "ext": ".jpg",
-      "size_bytes": 483547,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_7_IMG_20260223_102713.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_8_IMG_20260223_102716.jpg",
-      "ext": ".jpg",
-      "size_bytes": 295968,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_8_IMG_20260223_102716.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_9_IMG_20260223_102719.jpg",
-      "ext": ".jpg",
-      "size_bytes": 604232,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_9_IMG_20260223_102719.jpg"
+      "filename": "Certificado_Recepcion_Equipos_Acabados_Flexmax.pdf",
+      "ext": ".pdf",
+      "size_bytes": 232995,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-AUT-001/Certificado_Recepcion_Equipos_Acabados_Flexmax.pdf"
     },
     {
       "filename": "EQ_16_Archivo_de_Fotos_10_IMG_20260223_102721.jpg",
       "ext": ".jpg",
       "size_bytes": 414946,
-      "uploaded_at": "2026-09-17 13:02",
+      "uploaded_at": "2026-10-12 18:43",
       "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_10_IMG_20260223_102721.jpg"
     },
     {
       "filename": "EQ_16_Archivo_de_Fotos_11_IMG_20260223_102725.jpg",
       "ext": ".jpg",
       "size_bytes": 435540,
-      "uploaded_at": "2026-09-17 13:02",
+      "uploaded_at": "2026-10-12 18:43",
       "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_11_IMG_20260223_102725.jpg"
     },
     {
       "filename": "EQ_16_Archivo_de_Fotos_12_IMG_20260223_102727.jpg",
       "ext": ".jpg",
       "size_bytes": 371386,
-      "uploaded_at": "2026-09-17 13:02",
+      "uploaded_at": "2026-10-12 18:43",
       "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_12_IMG_20260223_102727.jpg"
     },
     {
       "filename": "EQ_16_Archivo_de_Fotos_13_IMG_20260223_102728.jpg",
       "ext": ".jpg",
       "size_bytes": 538211,
-      "uploaded_at": "2026-09-17 13:02",
+      "uploaded_at": "2026-10-12 18:43",
       "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_13_IMG_20260223_102728.jpg"
     },
     {
       "filename": "EQ_16_Archivo_de_Fotos_14_IMG_20260223_102744.jpg",
       "ext": ".jpg",
       "size_bytes": 1174311,
-      "uploaded_at": "2026-09-17 13:02",
+      "uploaded_at": "2026-10-12 18:43",
       "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_14_IMG_20260223_102744.jpg"
     },
     {
-      "filename": "EQ_16_Archivo_de_Fotos_15_IMG_20260223_102746.jpg",
-      "ext": ".jpg",
-      "size_bytes": 1641394,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_15_IMG_20260223_102746.jpg"
+      "filename": "Gama_Consumos_Electricos_y_Mantenimiento_Lijado.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-AUT-001/Gama_Consumos_Electricos_y_Mantenimiento_Lijado.xlsx"
     },
     {
-      "filename": "EQ_16_Archivo_de_Fotos_16_IMG_20260223_102747.jpg",
-      "ext": ".jpg",
-      "size_bytes": 541746,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_16_IMG_20260223_102747.jpg"
+      "filename": "Manual_Ficha_Tecnica_Lijadora_Automatica_SAND-R330.pdf",
+      "ext": ".pdf",
+      "size_bytes": 498919,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-AUT-001/Manual_Ficha_Tecnica_Lijadora_Automatica_SAND-R330.pdf"
     },
     {
-      "filename": "EQ_16_Archivo_de_Fotos_17_IMG_20260223_102755.jpg",
+      "filename": "Placa_Identificacion_LIJ-AUT-001.jpg",
       "ext": ".jpg",
-      "size_bytes": 448462,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_17_IMG_20260223_102755.jpg"
+      "size_bytes": 414946,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-AUT-001/Placa_Identificacion_LIJ-AUT-001.jpg"
     },
     {
-      "filename": "EQ_16_Archivo_de_Fotos_18_IMG_20260223_102756.jpg",
-      "ext": ".jpg",
-      "size_bytes": 450547,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_18_IMG_20260223_102756.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_19_IMG_20260223_102803.jpg",
-      "ext": ".jpg",
-      "size_bytes": 551719,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_19_IMG_20260223_102803.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_20_IMG_20260223_102805.jpg",
-      "ext": ".jpg",
-      "size_bytes": 308470,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_20_IMG_20260223_102805.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_21_IMG_20260223_102806.jpg",
-      "ext": ".jpg",
-      "size_bytes": 350133,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_21_IMG_20260223_102806.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_22_IMG_20260223_102811.jpg",
-      "ext": ".jpg",
-      "size_bytes": 465461,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_22_IMG_20260223_102811.jpg"
-    },
-    {
-      "filename": "EQ_16_Archivo_de_Fotos_23_IMG_20260227_134814.jpg",
-      "ext": ".jpg",
-      "size_bytes": 757837,
-      "uploaded_at": "2026-09-17 13:02",
-      "path": "media/documentos/LIJ-AUT-001/EQ_16_Archivo_de_Fotos_23_IMG_20260227_134814.jpg"
+      "filename": "Plano_Especificacion_Lijadora_Banda_Ancha_1300.pdf",
+      "ext": ".pdf",
+      "size_bytes": 449653,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-AUT-001/Plano_Especificacion_Lijadora_Banda_Ancha_1300.pdf"
     }
   ],
-  "LIJ-MAN-001": []
+  "LIJ-MAN-001": [
+    {
+      "filename": "Certificado_Recepcion_Equipos_Acabados_Flexmax.pdf",
+      "ext": ".pdf",
+      "size_bytes": 232995,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Certificado_Recepcion_Equipos_Acabados_Flexmax.pdf"
+    },
+    {
+      "filename": "Foto_Planta_LIJ-MAN-001_01.jpg",
+      "ext": ".jpg",
+      "size_bytes": 528592,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Foto_Planta_LIJ-MAN-001_01.jpg"
+    },
+    {
+      "filename": "Foto_Planta_LIJ-MAN-001_02.jpg",
+      "ext": ".jpg",
+      "size_bytes": 483547,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Foto_Planta_LIJ-MAN-001_02.jpg"
+    },
+    {
+      "filename": "Foto_Planta_LIJ-MAN-001_03.jpg",
+      "ext": ".jpg",
+      "size_bytes": 295968,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Foto_Planta_LIJ-MAN-001_03.jpg"
+    },
+    {
+      "filename": "Foto_Planta_LIJ-MAN-001_04.jpg",
+      "ext": ".jpg",
+      "size_bytes": 604232,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Foto_Planta_LIJ-MAN-001_04.jpg"
+    },
+    {
+      "filename": "Gama_Consumos_Electricos_y_Mantenimiento_Lijado.xlsx",
+      "ext": ".xlsx",
+      "size_bytes": 1068850,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Gama_Consumos_Electricos_y_Mantenimiento_Lijado.xlsx"
+    },
+    {
+      "filename": "Manual_Operacion_Lijadora_con_Mesa_SAND-P1300.pdf",
+      "ext": ".pdf",
+      "size_bytes": 498919,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Manual_Operacion_Lijadora_con_Mesa_SAND-P1300.pdf"
+    },
+    {
+      "filename": "Placa_Identificacion_LIJ-MAN-001.jpg",
+      "ext": ".jpg",
+      "size_bytes": 435540,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Placa_Identificacion_LIJ-MAN-001.jpg"
+    },
+    {
+      "filename": "Plano_Especificacion_Tecnica_Deburring_1300.pdf",
+      "ext": ".pdf",
+      "size_bytes": 449653,
+      "uploaded_at": "2026-10-12 18:43",
+      "path": "media/documentos/LIJ-MAN-001/Plano_Especificacion_Tecnica_Deburring_1300.pdf"
+    }
+  ]
 }

@@ -21,6 +21,12 @@ from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image as RLImage, KeepTogether, HRFlowable
 )
 
+# Importación opcional de sincronización con GCS
+try:
+    import gcs_sync
+except Exception:
+    gcs_sync = None
+
 # Constantes de Rutas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EXCEL_FILE = os.path.join(BASE_DIR, "inventario_activos.xlsx")
@@ -201,6 +207,9 @@ def save_document(asset_id: str, file_bytes: bytes, filename: str) -> bool:
             "path": os.path.join("media", "documentos", str(asset_id), filename).replace("\\", "/")
         })
         _save_docs_index(index)
+        if gcs_sync and gcs_sync.is_gcs_available():
+            gcs_sync.push_file_to_gcs(dest)
+            gcs_sync.push_file_to_gcs(DOCS_INDEX_FILE)
         return True
     except Exception as e:
         print(f"Error al guardar documento: {e}")
@@ -225,7 +234,7 @@ def get_asset_documents(asset_id: str) -> list:
 
 
 def delete_document(asset_id: str, filename: str) -> bool:
-    """Elimina un documento físicamente y lo remueve del índice JSON."""
+    """Elimina un documento físicamente y lo remueve del índice JSON y de GCS."""
     try:
         folder = get_docs_dir(asset_id)
         dest = os.path.join(folder, filename)
@@ -235,6 +244,9 @@ def delete_document(asset_id: str, filename: str) -> bool:
         if asset_id in index:
             index[asset_id] = [d for d in index[asset_id] if d["filename"] != filename]
         _save_docs_index(index)
+        if gcs_sync and gcs_sync.is_gcs_available():
+            gcs_sync.delete_file_from_gcs(f"media/documentos/{asset_id}/{filename}")
+            gcs_sync.push_file_to_gcs(DOCS_INDEX_FILE)
         return True
     except Exception as e:
         print(f"Error al eliminar documento: {e}")
@@ -242,11 +254,30 @@ def delete_document(asset_id: str, filename: str) -> bool:
 
 
 def _classify_doc_type(filename: str) -> str:
-    """Clasifica un archivo en un tipo de documento para el checklist."""
-    ext = os.path.splitext(filename)[1].lower()
-    for label, exts, _ in DOC_TYPES[:-1]:  # Excluir "Otro"
-        if ext in exts:
-            return label
+    """Clasifica un archivo en un tipo de documento para el checklist analizando nombre y extensión."""
+    fn_lower = filename.lower()
+    ext = os.path.splitext(fn_lower)[1]
+
+    # 1. Plano Técnico / Dibujo
+    if any(w in fn_lower for w in ["plano", "layout", "diagrama", "estructura", "dwg", "dxf"]) or ext in [".dwg", ".dxf"]:
+        return "Plano Técnico / Dibujo"
+
+    # 2. Certificado / Calibración / Factura / Entrega
+    if any(w in fn_lower for w in ["certificado", "calibracion", "entrega", "recepcion", "pre_entrega", "garantia", "pedimento", "factura", "rfq"]):
+        return "Certificado / Calibración"
+
+    # 3. Gama / Plan de Mantenimiento / Consumos / Cálculos
+    if any(w in fn_lower for w in ["gama", "mantenimiento", "consumo", "calculo", "arranque", "servicio", "tablero"]) or ext in [".xlsx", ".xls", ".csv"]:
+        return "Gama / Plan de Mantenimiento"
+
+    # 4. Manual / Ficha Técnica / Operación / Parámetros
+    if any(w in fn_lower for w in ["manual", "ficha", "operacion", "especificacion", "parametro", "tooling", "dados", "requerimiento"]) or ext in [".pdf", ".docx", ".doc"]:
+        return "Manual de Operación / Servicio"
+
+    # 5. Imagen Adicional del Equipo / Placa
+    if any(w in fn_lower for w in ["placa", "foto", "img", "whatsapp", "imagen"]) or ext in [".jpg", ".jpeg", ".png", ".webp", ".bmp"]:
+        return "Imagen Adicional del Equipo"
+
     return "Otro Documento"
 
 
@@ -259,8 +290,10 @@ def _fmt_size(size_bytes: int) -> str:
 
 
 def init_excel_db() -> pd.DataFrame:
-    """Inicializa o carga el archivo Excel con las columnas requeridas."""
+    """Inicializa o carga el archivo Excel con las columnas requeridas (sincronizando con GCS si está activo)."""
     ensure_directories()
+    if gcs_sync and gcs_sync.is_gcs_available():
+        gcs_sync.sync_from_gcs()
     if not os.path.exists(EXCEL_FILE):
         df = pd.DataFrame(columns=COLUMNS)
         df.to_excel(EXCEL_FILE, index=False, engine="openpyxl")
@@ -288,10 +321,12 @@ def init_excel_db() -> pd.DataFrame:
 
 
 def save_inventory(df: pd.DataFrame) -> bool:
-    """Guarda el DataFrame en el archivo Excel principal."""
+    """Guarda el DataFrame en el archivo Excel principal y lo sincroniza con GCS."""
     try:
         ensure_directories()
         df.to_excel(EXCEL_FILE, index=False, engine="openpyxl")
+        if gcs_sync and gcs_sync.is_gcs_available():
+            gcs_sync.push_file_to_gcs(EXCEL_FILE)
         return True
     except Exception as e:
         print(f"Error al guardar Excel: {e}")
@@ -451,6 +486,11 @@ def register_new_asset(asset_data: Dict[str, Any], uploaded_file=None) -> Tuple[
 
     success = save_inventory(new_df)
     if success:
+        if gcs_sync and gcs_sync.is_gcs_available():
+            if ruta_foto:
+                gcs_sync.push_file_to_gcs(os.path.join(BASE_DIR, ruta_foto))
+            if ruta_qr:
+                gcs_sync.push_file_to_gcs(os.path.join(BASE_DIR, ruta_qr))
         return True, asset_id, asset_data
     return False, "Error al guardar en el archivo Excel", asset_data
 
