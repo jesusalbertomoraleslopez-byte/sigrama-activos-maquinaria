@@ -14,6 +14,8 @@ GCS_BUCKET = os.environ.get("GCS_BUCKET", "sigrama-activos-storage").strip()
 _client = None
 _bucket = None
 _synced = False
+_last_sync_ts = 0.0
+SYNC_TTL = 300.0
 
 
 def get_bucket():
