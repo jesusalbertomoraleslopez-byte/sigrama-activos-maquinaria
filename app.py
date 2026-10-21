@@ -28,6 +28,70 @@ st.set_page_config(
 # === SIGRAMA FORM CONTRAST (estandar visual de campos) ===
 st.markdown("""
 <style>
+    /* Menú Lateral Estilo Google Workspace (Píldoras Material Design 3) */
+    [data-testid="stSidebar"] div[role="radiogroup"] > label > div:first-child {
+        display: none !important;
+    }
+    [data-testid="stSidebar"] div[role="radiogroup"] {
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        gap: 3px !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    [data-testid="stSidebar"] div[role="radiogroup"] > label {
+        background-color: transparent !important;
+        border: 1px solid transparent !important;
+        color: #CBD5E1 !important;
+        padding: 9px 18px !important;
+        border-radius: 24px !important;
+        transition: all 0.18s ease-in-out !important;
+        margin: 1px 0 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    [data-testid="stSidebar"] div[role="radiogroup"] label p,
+    [data-testid="stSidebar"] div[role="radiogroup"] label span {
+        font-size: 15px !important;
+        font-family: 'Questrial', sans-serif !important;
+        font-weight: 500 !important;
+        color: #CBD5E1 !important;
+        line-height: 1.35 !important;
+    }
+    [data-testid="stSidebar"] div[role="radiogroup"] > label:hover,
+    [data-testid="stSidebar"] div[role="radiogroup"] > label:hover p,
+    [data-testid="stSidebar"] div[role="radiogroup"] > label:hover span {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        border-color: transparent !important;
+        color: #FFFFFF !important;
+        border-radius: 24px !important;
+    }
+    [data-testid="stSidebar"] div[role="radiogroup"] > label[data-checked="true"],
+    [data-testid="stSidebar"] div[role="radiogroup"] > label[data-checked="true"] p,
+    [data-testid="stSidebar"] div[role="radiogroup"] > label[data-checked="true"] span,
+    [data-testid="stSidebar"] div[role="radiogroup"] > label:has(input:checked),
+    [data-testid="stSidebar"] div[role="radiogroup"] > label:has(input:checked) p,
+    [data-testid="stSidebar"] div[role="radiogroup"] > label:has(input:checked) span {
+        background-color: rgba(236, 32, 36, 0.22) !important;
+        border: 1px solid rgba(236, 32, 36, 0.55) !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        border-radius: 24px !important;
+    }
+
+    /* Botón Google Workspace 'Redactar / Nuevo' (FAB Pill) */
+    div.stButton > button[key="btn_google_fab_activos"] {
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        font-size: 14.5px !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 14px rgba(236, 32, 36, 0.35) !important;
+        border: 1px solid rgba(236, 32, 36, 0.8) !important;
+        margin-bottom: 8px !important;
+    }
+
     /* Escritorio de la app: gris claro para que los campos blancos resalten */
     html body .stApp, html body [data-testid="stAppViewContainer"], html body [data-testid="stMain"] {
         background-color: #EEF2F6 !important;
@@ -119,21 +183,39 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-family: \"Montserrat\", sans-serif; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Módulos del Sistema:</p>", unsafe_allow_html=True)
+    # --- NAVEGACIÓN ESTILO GOOGLE WORKSPACE ---
+    if st.button("➕ Nuevo Activo", key="btn_google_fab_activos", use_container_width=True, type="primary"):
+        st.session_state["activos_google_nav"] = "➕ Registro"
+        st.rerun()
 
-    menu = st.radio(
-        label="Navegación:",
-        options=[
-            "📌 1. Inicio / Dashboard",
-            "➕ 2. Registro de Activos",
-            "🔍 3. Consulta y Ficha Técnica",
-            "📦 4. Compendio de Fichas PDF",
-            "⚙️ 5. Configuración y Respaldos",
-            "📘 6. Manual e Industria 4.0",
-        ],
-        index=0,
-        label_visibility="collapsed"
-    )
+    st.markdown("<p style='font-family: \"Montserrat\", sans-serif; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px; margin-bottom: 6px;'>Menú Principal:</p>", unsafe_allow_html=True)
+
+    ACTIVOS_MAP = {
+        "📊 Resumen": "📌 1. Inicio / Dashboard",
+        "➕ Registro": "➕ 2. Registro de Activos",
+        "🔍 Consulta": "🔍 3. Consulta y Ficha Técnica",
+        "📦 Fichas": "📦 4. Compendio de Fichas PDF",
+        "⚙️ Ajustes": "⚙️ 5. Configuración y Respaldos",
+        "📘 Manual": "📘 6. Manual e Industria 4.0"
+    }
+
+    google_act_items = [
+        "📊 Resumen",
+        "➕ Registro",
+        "🔍 Consulta",
+        "📦 Fichas",
+        "⚙️ Ajustes",
+        "📘 Manual"
+    ]
+
+    curr_act = st.session_state.get("activos_google_nav", "📊 Resumen")
+    if curr_act not in google_act_items:
+        curr_act = google_act_items[0]
+    idx_act = google_act_items.index(curr_act)
+
+    sel_act = st.radio("Navegación:", google_act_items, index=idx_act, key="radio_act_google", label_visibility="collapsed")
+    st.session_state["activos_google_nav"] = sel_act
+    menu = ACTIVOS_MAP.get(sel_act, "📌 1. Inicio / Dashboard")
 
     # Resumen Operativo en Vivo en Sidebar
     df_sidebar = core.init_excel_db()
